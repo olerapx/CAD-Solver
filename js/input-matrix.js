@@ -79,3 +79,7 @@ function addCell(row, value) {
 	var cell = $("<td>").text(value);
 	row.append(cell);
 }
+
+function reduce (tbody) {
+	
+}
