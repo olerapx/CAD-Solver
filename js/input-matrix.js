@@ -110,7 +110,7 @@ function addColumn (tbody, colName, index) {
 				shiftCellsCol(cell, index, +1);
 			});
 	});
-
+	shiftButtonCells(tbody, index, +1);
 	addButtonCell(tbody, index);
 	addHeaderCell(tbody, colName, index);
 	addMissingCells(tbody, index, "0");
@@ -138,7 +138,7 @@ function shiftButtonCells(tbody, index, diff) {
 		$(cell.children()).each(function (i, btn) {
 			var id = Number ($(btn).attr("item-id"));
 
-			if (id > index)
+			if (id >= index)
 				$(btn).attr("item-id", id + diff);
 		});
 	});
