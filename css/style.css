@@ -108,3 +108,7 @@ th, td {
     vertical-align: middle !important;
     text-align: center !important;
 }
+
+.td-disabled {
+	background-color: #D7D7D7;
+}
