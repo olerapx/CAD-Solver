@@ -36,6 +36,12 @@
 		});
 
 		$(this).append(table);
+
+		return {
+			toJSON:function() {
+				return getData(tbody);
+			}
+		};
 	}
 
 	$.fn.appendAt = function(content, index) {
@@ -73,7 +79,7 @@
 	}
 
 	function setHandlers(table) {
-		
+
 	}
 
 	function extendTable (tbody, itemName, index) {
@@ -310,5 +316,24 @@
 	function deleteHeaderCell(tbody, index) {
 		index = Number(index);
 		$(tbody.children('#header-row')).removeAt(index);
+	}
+
+	function getData(tbody) {
+		var a = new Array();
+
+		tbody.children().each(function (i, row) {
+			row = $(row);
+			a.push(new Array());
+
+			row.children().each(function (j, cell) {
+				cell = $(cell);
+				a[i].push(cell.text());
+			});
+
+			a[i].shift();
+		});
+		a.shift();
+
+		return JSON.stringify(a);
 	}
 })(jQuery);
