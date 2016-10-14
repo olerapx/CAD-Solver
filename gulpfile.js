@@ -1,15 +1,15 @@
-var lr = require('tiny-lr'), // Минивебсервер для livereload
-    gulp = require('gulp'), // Сообственно Gulp JS
-    pug = require('gulp-pug'), // Плагин для Jade
-    stylus = require('gulp-stylus'), // Плагин для Stylus
-    livereload = require('gulp-livereload'), // Livereload для Gulp
+var lr = require('tiny-lr'), // livereload
+    gulp = require('gulp'), 
+    pug = require('gulp-pug'), 
+    stylus = require('gulp-stylus'),
+    livereload = require('gulp-livereload'), 
     postcss = require('gulp-postcss'),
     autoprefixer = require('autoprefixer'),
     poststylus = require('poststylus'),
-    csso = require('gulp-csso'), // Минификация CSS
-    imagemin = require('gulp-imagemin'), // Минификация изображений
-    uglify = require('gulp-uglify'), // Минификация JS
-    connect = require('connect'), // Webserver
+    csso = require('gulp-csso'), // css min
+    imagemin = require('gulp-imagemin'), // img min
+    uglify = require('gulp-uglify'), // js min
+    connect = require('connect'), // webserver
     serveStatic = require('serve-static'),
     server = lr();
 
@@ -103,7 +103,7 @@ gulp.task('public', function() {
         }))
     .on('error', console.log)
     .pipe(gulp.dest('./public/css/'))
-    .pipe(livereload(server));  
+    .pipe(livereload(server));
 
 
     gulp.src(['./assets/template/**/*.pug', '!./assets/template/_*.pug'])
@@ -111,16 +111,16 @@ gulp.task('public', function() {
             pretty: true
         })) 
         .on('error', console.log)
-    .pipe(gulp.dest('./build/'))
+    .pipe(gulp.dest('./public/'));
 
     gulp.src('./assets/js/**/*.js')
         .pipe(uglify())
-        .pipe(gulp.dest('./build/js'))
+        .pipe(gulp.dest('./public/js'));
 
     gulp.src('./assets/libs/**/*')
-        .pipe(gulp.dest('./build/libs'))
+        .pipe(gulp.dest('./public/libs'));
 
     gulp.src('./assets/img/**/*')
         .pipe(imagemin())
-        .pipe(gulp.dest('./build/img'))
+        .pipe(gulp.dest('./public/img'));
 });
