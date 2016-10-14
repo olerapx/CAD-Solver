@@ -1,0 +1,25 @@
+doctype html
+html(lang="ru")
+head
+	meta(charset="utf-8")
+	meta(http-equiv="X-UA-Compatible", content="IE=edge")
+	meta(name="viewport", content="width=device-width, initial-scale=1")
+body.container-fluid
+	img.page-bg(src="img/main-bg.jpg")
+	div.container
+		div.row.vertical-center
+			div.col-lg-8.col-lg-offset-2
+				div.jumbotron.jumbotron-black-transparent.horizontal-center
+					h1.text-white CAD Solver
+					p.text-white До цифирей дает
+					hr
+					p.text-white Попробуйте сейчас:
+					ul.list-inline.main-buttons
+						li(data-page="otsp.html")
+							a.btn.btn-primary.btn-lg(href="#") Коммивояжер
+						li
+							a.btn.btn-primary.btn-lg(href="#") Упаковка
+						li
+							a.btn.btn-primary.btn-lg(href="#") Клика
+			div.push
+	script(defer, src="js/main.js")

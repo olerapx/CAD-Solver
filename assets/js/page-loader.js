@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    loadPage("html/main.html");
+    loadPage("main.html");
 });
 
 /* Sets handlers for navbar */

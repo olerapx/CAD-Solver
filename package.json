@@ -1,0 +1,31 @@
+{
+  "name": "cad-solver",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olerapx/CAD-Solver.git"
+  },
+  "author": "olerapx, blenten",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olerapx/CAD-Solver/issues"
+  },
+  "homepage": "https://github.com/olerapx/CAD-Solver#readme",
+  "description": "",
+  "devDependencies": {
+    "connect": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-csso": "^2.0.0",
+    "gulp-imagemin": "^3.0.3",
+    "gulp-livereload": "^3.8.1",
+    "gulp-myth": "^1.1.0",
+    "gulp-pug": "^3.1.0",
+    "gulp-stylus": "^2.5.0",
+    "gulp-uglify": "^2.0.0"
+  }
+}
