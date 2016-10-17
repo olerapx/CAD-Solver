@@ -10,7 +10,7 @@
     "url": "git+https://github.com/olerapx/CAD-Solver.git"
   },
   "author": "olerapx, blenten",
-  "license": "LGPLv2",
+  "license": "LGPL-3.0",
   "bugs": {
     "url": "https://github.com/olerapx/CAD-Solver/issues"
   },
@@ -19,6 +19,7 @@
   "devDependencies": {
     "autoprefixer": "^6.5.1",
     "connect": "^3.5.0",
+    "connect-livereload": "^0.6.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-csso": "^2.0.0",
