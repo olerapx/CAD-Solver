@@ -40,6 +40,14 @@
 		return {
 			toJSON:function() {
 				return getData(tbody);
+			},
+
+			extendTable:function(itemName, index) {
+				extendTable(tbody, itemName, index);
+			},
+
+			reduceTable:function (index) {
+				reduceTable(tbody, index);
 			}
 		};
 	}
