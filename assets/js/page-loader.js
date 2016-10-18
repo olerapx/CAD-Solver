@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 /* Sets handlers for navbar */
-$("ul.navbar-nav li:not(.nav-algos):not(#li-login)").each(function() {
+$("ul.navbar-nav li:not(.nav-algos):not(#li-login):not(#li-logout):not('#li-username')").each(function() {
 
     $(this).on("click", function() {    	
     	loadPage(($(this)).attr("data-page"));

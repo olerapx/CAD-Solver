@@ -33,5 +33,7 @@
     "poststylus": "^0.2.3",
     "serve-static": "^1.11.1",
     "tiny-lr": "^1.0.2"
+  },
+  "dependencies": {
   }
 }

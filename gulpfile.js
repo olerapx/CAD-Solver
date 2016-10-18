@@ -37,7 +37,6 @@ gulp.task('pug', function() {
 
 gulp.task('js', function() {
     gulp.src('./assets/js/**/*.js')
-        .pipe(uglify())
         .pipe(gulp.dest('./build/js'))
         .pipe(livereload(server));
 });
