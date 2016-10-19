@@ -1,195 +1,174 @@
-(function ($) {
+$.fn.appendAt = function(content, index) {
+	index = Number(index);
+    this.each(function(i, item) {
+        let $content = $(content).clone();
+        if ( index === 0 ) {
+            $(item).prepend($content);
+        } else {
+            $content.insertAfter($(item).children().eq(index-1));
+        }
+    });
+    $(content).remove();
+    return this;
+};
 
-	var itemNumber = 0;
-	var nameIndexCounter = 2;
+$.fn.removeAt = function (index) {
+	index = Number(index);
+	$(this.children(':nth-child(' + (index + 3) + ')')).remove();
+};
 
-	$.fn.addTable = function () {
 
-		var table = $("<table>").addClass("table input-table table-responsive table-bordered");
-		var tbody = $("<tbody>");
-		table.append(tbody);
+class InputTable {
+	constructor(element) {
+		this.itemNumber = 0;
+		this.nameIndexCounter = 1;
 
-		constructButtonRow(tbody);
-		constructHeaderRow(tbody);
+		element = $(element);
 
-		addFirstItem(tbody, "A1");
+		let table = $("<table>").addClass("table input-table table-responsive table-bordered");
+		this.tbody = $("<tbody>");
+		table.append(this.tbody);
 
-		table.on("click", "tbody tr#button-row button.btn-extend", function() {
-			extendTable(tbody, "A" + nameIndexCounter, $(this).attr('item-id'));
-			nameIndexCounter++;
+		this.constructButtonRow();
+		this.constructHeaderRow();
+
+		this.addFirstItem("A" + this.nameIndexCounter);
+
+		table.on("click", "tbody tr#button-row button.btn-extend", (event) => {
+			this.extendTable("A" + this.nameIndexCounter, $(event.currentTarget).attr('item-id'));
 		});
 
-		table.on("click", "tbody tr#button-row button.btn-reduce", function() {
-			reduceTable(tbody, $(this).attr('item-id'));
+		table.on("click", "tbody tr#button-row button.btn-reduce", (event) => {
+			this.reduceTable($(event.currentTarget).attr('item-id'));
 		});
 
-		table.on("input propertychange paste", "tbody tr#header-row th", function() {
-			var headerID = Number($(this).attr("header-id"));
-			$(this).parent().parent().children().children("[header-id="+headerID+"]").text($(this).text());
+		table.on("input propertychange paste", "tbody tr#header-row th", (event) => {
+			let headerID = Number($(event.currentTarget).attr("header-id"));
+			$(event.currentTarget).parent().parent().children().children("[header-id="+headerID+"]").text($(event.currentTarget).text());
 		});
 
-		table.on("input propertychange paste", "tbody tr.content-row td", function() {
-			var rowID = Number($(this).attr("row-id"));
-			var colID = Number($(this).attr("col-id"));
+		table.on("input propertychange paste", "tbody tr.content-row td", (event) => {
+			let rowID = Number($(event.currentTarget).attr("row-id"));
+			let colID = Number($(event.currentTarget).attr("col-id"));
 
-			$(this).parent().parent().children().children("[row-id="+colID+"]").filter("[col-id="+rowID+"]").text($(this).text());
+			$(event.currentTarget).parent().parent().children().children("[row-id="+colID+"]").filter("[col-id="+rowID+"]").text($(event.currentTarget).text());
 		});
 
-		$(this).append(table);
-
-		return {
-			toJSON:function() {
-				return getData(tbody);
-			},
-
-			extendTable:function(itemName, index) {
-				extendTable(tbody, itemName, index);
-			},
-
-			extendTable:function(index) {
-				extendTable(tbody, "A" + nameIndexCounter, index);
-				nameIndexCounter++;
-			},
-
-			reduceTable:function (index) {
-				reduceTable(tbody, index);
-			}
-		};
+		element.append(table);		
 	}
 
-	$.fn.appendAt = function(content, index) {
+	toJSON() {
+		return this.getData();
+	}
+
+	extendTableWithDefaultName(index) {
+		this.extendTable("A" + this.nameIndexCounter, index);
+	}
+
+	constructButtonRow () {
+		let buttonRow = $("<tr id='button-row'>").append($("<td>"));
+		this.tbody.append(buttonRow);
+	}
+
+	constructHeaderRow() {
+		let headerRow = $("<tr id='header-row'>").append($("<th>"));
+		this.tbody.append(headerRow);
+	}
+
+	addFirstItem(itemName) {
+		if (this.itemNumber === 0)
+			this.extendTable(itemName, -1);
+	}
+
+	extendTable (itemName, index) {
 		index = Number(index);
-	    this.each(function(i, item) {
-	        var $content = $(content).clone();
-	        if ( index === 0 ) {
-	            $(item).prepend($content);
-	        } else {
-	            $content.insertAfter($(item).children().eq(index-1));
-	        }
-	    });
-	    $(content).remove();
-	    return this;
-	};
+		this.itemNumber ++;
 
-	$.fn.removeAt = function (index) {
-		index = Number(index);
-		$(this.children(':nth-child(' + (index + 3) + ')')).remove();
-	};
+		this.addRow(itemName, index + 1);
+		this.addColumn (itemName, index + 1);
 
-	function constructButtonRow (tbody) {
-		var buttonRow = $("<tr id='button-row'>").append($("<td>"));
-		tbody.append(buttonRow);
+		this.nameIndexCounter++;
 	}
 
-	function constructHeaderRow(tbody) {
-		var headerRow = $("<tr id='header-row'>").append($("<th>"));
-		tbody.append(headerRow);
-	}
-
-	function addFirstItem(tbody, itemName) {
-		if (itemNumber === 0)
-			extendTable(tbody, itemName, -1);
-	}
-
-	function setHandlers(table) {
-
-	}
-
-	function extendTable (tbody, itemName, index) {
-		index = Number(index);
-		itemNumber ++;
-
-		addRow(tbody, itemName, index + 1);
-		addColumn (tbody, itemName, index + 1);
-	}
-
-	function addRow(tbody, rowName, index) {
+	addRow(rowName, index) {
 		index = Number(index);
 
-		$(tbody.children('.content-row')).each(function (i, row) {
-
-			var row = $(row);
-			shiftRow(row, index, +1);
+		$(this.tbody.children('.content-row')).each((i, row) => {
+			this.shiftRow($(row), index, +1);
 		});
 
-		var headerCell = $("<th>");
+		let headerCell = $("<th>");
 		headerCell.text(rowName);
 		headerCell.attr("header-id", index);
 
-		var row = $("<tr class='content-row'>").append(headerCell);
+		let row = $("<tr class='content-row'>").append(headerCell);
 		row.attr("row-id", index);
-		tbody.appendAt(row, index + 2);
+		this.tbody.appendAt(row, index + 2);
 	}
 
-	function shiftRow (row, index, diff) {
+	shiftRow (row, index, diff) {
 		index = Number(index);
 		diff = Number(diff);
 
-		var id = Number(row.attr("row-id"));
+		let id = Number(row.attr("row-id"));
 		if (id >= index) {
 			row.attr("row-id", id + diff);	
 			row.children("th").attr("header-id", id + diff);
 
-			$(row.children()).each(function(i, cell) {
-
-				var cell = $(cell);
-				shiftCellsRow(cell, index, diff);
+			$(row.children()).each((i, cell) => {
+				this.shiftCellsRow($(cell), index, diff);
 			});
 		}
 	}
 
-	function shiftCellsRow(cell, index, diff) {
+	shiftCellsRow(cell, index, diff) {
 		index = Number(index);
 		diff = Number(diff);
 
-		var id = Number(cell.attr("row-id"));
+		let id = Number(cell.attr("row-id"));
 
 		if (id >= index)
 			cell.attr("row-id", id + diff);
 	}
 
-	function addColumn (tbody, colName, index) {
+	addColumn (colName, index) {
 		index = Number(index);
 
-		$(tbody.children('.content-row')).each(function (i, row) {
+		$(this.tbody.children('.content-row')).each((i, row) => {
 
-			var row = $(row);			
-			$(row.children()).each(function(i, cell) {
-
-				var cell = $(cell);
-				shiftCellsCol(cell, index, +1);
+			$($(row).children()).each((i, cell) => {
+				this.shiftCellsCol($(cell), index, +1);
 			});
 		});
 
-		shiftButtonCells(tbody, index, +1);
-		shiftHeaderCells(tbody, index, +1);
+		this.shiftButtonCells(index, +1);
+		this.shiftHeaderCells(index, +1);
 
-		addButtonCell(tbody, index);
-		addHeaderCell(tbody, colName, index);
-		addMissingCells(tbody, index, "0");
+		this.addButtonCell(index);
+		this.addHeaderCell(colName, index);
+		this.addMissingCells(index, "0");
 	}
 
-	function shiftCellsCol(cell, index, diff) {
+	shiftCellsCol (cell, index, diff) {
 		index = Number(index);
 		diff = Number(diff);
 
-		var id = Number(cell.attr("col-id"));
+		let id = Number(cell.attr("col-id"));
 
 		if (id >= index)
 			cell.attr("col-id", id + diff);
 	}
 
-	function shiftButtonCells(tbody, index, diff) {
+	shiftButtonCells(index, diff) {
 		index = Number(index);
 		diff = Number(diff);
 
-		var buttonRow = $(tbody.children('#button-row'));
+		let buttonRow = $(this.tbody.children('#button-row'));
 
-		buttonRow.children().each(function (i, cell) {
-			var cell = $(cell);
+		buttonRow.children().each((i, cell) => {
 
-			$(cell.children()).each(function (i, btn) {
-				var id = Number ($(btn).attr("item-id"));
+			$($(cell).children()).each((i, btn) => {
+				let id = Number ($(btn).attr("item-id"));
 
 				if (id >= index)
 					$(btn).attr("item-id", id + diff);
@@ -197,46 +176,43 @@
 		});
 	}
 
-	function shiftHeaderCells (tbody, index, diff) {
+	shiftHeaderCells (index, diff) {
 		index = Number(index);
 		diff = Number(diff);
 
-		var headerRow = $(tbody.children('#header-row'));
+		let headerRow = $(this.tbody.children('#header-row'));
 
-		headerRow.children().each(function (i, cell) {
-
-			var cell = $(cell);		
-			var id = Number (cell.attr("header-id"));
+		headerRow.children().each((i, cell) => {
+	
+			let id = Number ($(cell).attr("header-id"));
 
 			if (id >= index)
-				cell.attr("header-id", id + diff);
+				$(cell).attr("header-id", id + diff);
 		});
 	}
 
-	function addMissingCells(tbody, index, value) {
+	addMissingCells(index, value) {
 		index = Number(index);
 
-		$(tbody.children('.content-row')).each(function (i, row) {
-
-			var row = $(row);
+		$(this.tbody.children('.content-row')).each((i, row) => {
 
 			if (i != index)
-				addCell(row, value, index);
+				this.addCell($(row), value, index);
 			else 
-				for (var j = 0; j < itemNumber; j++)
-					addCell(row, value, j);
+				for (let j = 0; j < this.itemNumber; j++)
+					this.addCell($(row), value, j);
 		});
 	}
 
-	function addButtonCell (tbody, index) {
+	addButtonCell (index) {
 		index = Number(index);
 
-		var buttonRow = $(tbody.children('#button-row'));
+		let buttonRow = $(this.tbody.children('#button-row'));
 
-		var cell = $("<td>");
+		let cell = $("<td>");
 
-		var buttonPlus = $('<button type="button">').addClass("btn btn-sm btn-success btn-extend").text("+");
-		var buttonMinus = $('<button type="button">').addClass("btn btn-sm btn-success btn-reduce").text("-").css('margin-left', 3);
+		let buttonPlus = $('<button type="button">').addClass("btn btn-sm btn-success btn-extend").text("+");
+		let buttonMinus = $('<button type="button">').addClass("btn btn-sm btn-success btn-reduce").text("-").css('margin-left', 3);
 
 		buttonPlus.attr("item-id", index);
 		buttonMinus.attr("item-id", index);
@@ -247,22 +223,22 @@
 		buttonRow.appendAt(cell, index + 1);
 	}
 
-	function addHeaderCell (tbody, name, index) {
+	addHeaderCell (name, index) {
 		index = Number(index);
-		var headerRow =  $(tbody.children('#header-row'));
+		let headerRow =  $(this.tbody.children('#header-row'));
 
-		var cell = $("<th>").text(name).attr("contenteditable", true).attr("header-id", index);
+		let cell = $("<th>").text(name).attr("contenteditable", true).attr("header-id", index);
 		headerRow.appendAt(cell, index+1);
 	}
 
-	function addCell(row, value, index) {
+	addCell(row, value, index) {
 		index = Number(index);
 
-		var cell = $("<td>").text(value);
+		let cell = $("<td>").text(value);
 
 		cell.attr("row-id", row.attr("row-id"));
 
-		if (row.children().length == 1)
+		if (row.children().length === 1)
 			cell.attr("col-id", 0);
 		else
 			cell.attr("col-id", Number(row.children(":nth-child("+(index+1)+")").attr("col-id"))+1);
@@ -277,68 +253,63 @@
 		row.appendAt(cell, index+1);
 	}
 
-	function reduceTable (tbody, index) {
-		if (itemNumber <= 1) return;
+	reduceTable (index) {
+		if (this.itemNumber <= 1) return;
 
 		index = Number(index);
 
-		deleteRow(tbody, index);
-		deleteColumn(tbody, index);
+		this.deleteRow(index);
+		this.deleteColumn(index);
 
-		itemNumber--;
+		this.itemNumber--;
 	}
 
-	function deleteRow (tbody, index) {
+	deleteRow (index) {
 		index = Number(index);
 
-		$(tbody.children('.content-row')).each(function (i, row) {
+		$(this.tbody.children('.content-row')).each((i, row) => {
 
-			var row = $(row);
-			shiftRow(row, index, -1);
+			this.shiftRow($(row), index, -1);
 		});
 
-		tbody.removeAt(index);
+		this.tbody.removeAt(index);
 	}
 
-	function deleteColumn (tbody, index) {
+	deleteColumn (index) {
 		index = Number(index);
 
-		$(tbody.children('.content-row')).each(function (i, row) {
-
-			var row = $(row);			
-			$(row.children()).each(function(i, cell) {
-
-				var cell = $(cell);
-				shiftCellsCol(cell, index, -1);
+		$(this.tbody.children('.content-row')).each((i, row) => {
+		
+			$($(row).children()).each((i, cell) => {
+				this.shiftCellsCol($(cell), index, -1);
 			});
 
-			row.removeAt(index-1);
+			$(row).removeAt(index-1);
 		});
-		shiftHeaderCells(tbody, index, -1);
-		shiftButtonCells(tbody, index, -1);
+		this.shiftHeaderCells( index, -1);
+		this.shiftButtonCells(index, -1);
 
-		deleteButtonCell(tbody, index-1);
-		deleteHeaderCell(tbody, index-1);
+		this.deleteButtonCell(index-1);
+		this.deleteHeaderCell(index-1);
 	}
 
-	function deleteButtonCell(tbody, index) {
+	deleteButtonCell(index) {
 		index = Number(index);
-		$(tbody.children('#button-row')).removeAt(index);
+		$(this.tbody.children('#button-row')).removeAt(index);
 	}
 
-	function deleteHeaderCell(tbody, index) {
+	deleteHeaderCell(index) {
 		index = Number(index);
-		$(tbody.children('#header-row')).removeAt(index);
+		$(this.tbody.children('#header-row')).removeAt(index);
 	}
+	getData() {
+		let a = new Array();
 
-	function getData(tbody) {
-		var a = new Array();
-
-		tbody.children().each(function (i, row) {
+		this.tbody.children().each((i, row) => {
 			row = $(row);
 			a.push(new Array());
 
-			row.children().each(function (j, cell) {
+			row.children().each((j, cell) => {
 				cell = $(cell);
 				a[i].push(cell.text());
 			});
@@ -349,4 +320,4 @@
 
 		return JSON.stringify(a);
 	}
-})(jQuery);
+}

@@ -11,6 +11,8 @@ var lr = require('tiny-lr'), // livereload
     uglify = require('gulp-uglify'), // js min
     connect = require('connect'), // webserver
     serveStatic = require('serve-static'),
+    gulp = require('gulp'),
+    babel = require('gulp-babel'),
     server = lr();
 
 gulp.task('stylus', function() {
@@ -20,9 +22,9 @@ gulp.task('stylus', function() {
                 poststylus(['autoprefixer'])
             ]
         }))
-    .on('error', console.log)
-    .pipe(gulp.dest('./build/css/'))
-    .pipe(livereload(server)); 
+        .on('error', console.log)
+        .pipe(gulp.dest('./build/css/'))
+        .pipe(livereload(server)); 
 });
 
 gulp.task('pug', function() {
@@ -31,8 +33,8 @@ gulp.task('pug', function() {
             pretty: true
         })) 
         .on('error', console.log)
-    .pipe(gulp.dest('./build/'))
-    .pipe(livereload(server));
+        .pipe(gulp.dest('./build/'))
+        .pipe(livereload(server));
 }); 
 
 gulp.task('js', function() {
@@ -100,9 +102,9 @@ gulp.task('public', function() {
                 poststylus(['autoprefixer'])
             ]
         }))
-    .on('error', console.log)
-    .pipe(gulp.dest('./public/css/'))
-    .pipe(livereload(server));
+        .on('error', console.log)
+        .pipe(gulp.dest('./public/css/'))
+        .pipe(livereload(server));
 
 
     gulp.src(['./assets/template/**/*.pug', '!./assets/template/_*.pug'])
@@ -110,9 +112,12 @@ gulp.task('public', function() {
             pretty: true
         })) 
         .on('error', console.log)
-    .pipe(gulp.dest('./public/'));
+        .pipe(gulp.dest('./public/'));
 
     gulp.src('./assets/js/**/*.js')
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(uglify())
         .pipe(gulp.dest('./public/js'));
 

@@ -1,6 +1,6 @@
-var table = $("div.input-matrix").addTable();
-table.extendTable(0);
-table.extendTable(1);
+let table = new InputTable("div.input-matrix");
+table.extendTableWithDefaultName(0);
+table.extendTableWithDefaultName(1);
 
 $("#btn-solve").on('click', function () {
 
