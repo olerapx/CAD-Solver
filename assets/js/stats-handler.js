@@ -78,6 +78,9 @@ var vcChart = new Chart(vc, {
               drawOnChartArea: false
             }
           }]
+        },
+        legend: {
+            position: 'bottom'
         }
     }
 });

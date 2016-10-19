@@ -46,6 +46,11 @@
 				extendTable(tbody, itemName, index);
 			},
 
+			extendTable:function(index) {
+				extendTable(tbody, "A" + nameIndexCounter, index);
+				nameIndexCounter++;
+			},
+
 			reduceTable:function (index) {
 				reduceTable(tbody, index);
 			}
