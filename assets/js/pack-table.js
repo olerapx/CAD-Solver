@@ -89,6 +89,7 @@ class PackTable {
 		headerCell.attr("header-id", index);
 
 		let buttonCell = $("<th>");
+		buttonCell.attr("header-id", index);
 
 		let buttonPlus = $('<button type="button">').addClass("btn btn-sm btn-success btn-extend").text("+");
 		let buttonMinus = $('<button type="button">').addClass("btn btn-sm btn-success btn-reduce").text("-").css('margin-left', 3);
@@ -120,6 +121,7 @@ class PackTable {
 		if (id >= index) {
 			row.attr("row-id", id + diff);	
 			row.children("th").attr("header-id", id + diff);
+			row.children("th").children().attr("item-id", id + diff);
 
 			$(row.children()).each((i, cell) => {
 				this.shiftCellsRow($(cell), index, diff);

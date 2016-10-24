@@ -1,4 +1,4 @@
-let table = new PackTable("div.pack-table");
+var table = new PackTable("div.pack-table");
 table.extendTableWithDefaultName(0);
 table.extendTableWithDefaultName(1);
 

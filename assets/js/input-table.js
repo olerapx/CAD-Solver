@@ -47,13 +47,6 @@ class InputTable {
 			$(event.currentTarget).parent().parent().children().children("[header-id="+headerID+"]").text($(event.currentTarget).text());
 		});
 
-		table.on("input propertychange paste", "tbody tr.content-row td", (event) => {
-			let rowID = Number($(event.currentTarget).attr("row-id"));
-			let colID = Number($(event.currentTarget).attr("col-id"));
-
-			$(event.currentTarget).parent().parent().children().children("[row-id="+colID+"]").filter("[col-id="+rowID+"]").text($(event.currentTarget).text());
-		});
-
 		element.append(table);		
 	}
 

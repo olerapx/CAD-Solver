@@ -1,4 +1,4 @@
-let table = new InputTable("div.input-matrix");
+var table = new InputTable("div.input-matrix");
 table.extendTableWithDefaultName(0);
 table.extendTableWithDefaultName(1);
 
