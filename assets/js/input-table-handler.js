@@ -4,7 +4,7 @@ var tableOptions = {
 	headers: {
 		addTopButtons: true,
 		addTopHeaders: true,
-		addLeftButtons: false,
+		addLeftButtons: true,
 		addLeftHeaders: true
 	},
 	symmetrical: false
