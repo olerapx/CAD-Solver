@@ -14,7 +14,7 @@ $.fn.appendAt = function(content, index) {
 
 $.fn.removeAt = function (index) {
 	index = Number(index);
-	$(this.children(':nth-child(' + (index + 3) + ')')).remove();
+	$(this.children(':nth-child(' + (index + 1) + ')')).remove();
 };
 
 
@@ -24,32 +24,32 @@ class InputTable {
 		element = $(element);
 
 		this.itemCounter = 0;
-		this.nameIndexCounter = this.options.startItemIndex;
+		this.nameIndexCounter = this.options.items.startNameIndex;
 
-		this.headerTopCellsNumber = 0;
-		this.headerLeftCellsNumber = 0;
+		this.topHeaderCellsNumber = 0;
+		this.leftHeaderCellsNumber = 0;
 
 		this.table = $("<table>").addClass("table input-table table-responsive table-bordered");
 		this.tbody = $("<tbody>");
 		this.table.append(this.tbody);
 
 		if (this.options.headers.addLeftButtons)
-			this.headerLeftCellsNumber ++;
+			this.leftHeaderCellsNumber ++;
 
 		if (this.options.headers.addLeftHeaders)
-			this.headerLeftCellsNumber ++;	
+			this.leftHeaderCellsNumber ++;	
 
 		if (this.options.headers.addTopButtons) {
-			this.headerTopCellsNumber ++;
+			this.topHeaderCellsNumber ++;
 			this.constructButtonRow();
 		}
 		
 		if (this.options.headers.addTopHeaders) {
-			this.headerTopCellsNumber ++;
+			this.topHeaderCellsNumber ++;
 			this.constructHeaderRow();
 		}	
 
-		this.addFirstItem(this.options.defaultItemName + this.nameIndexCounter);
+		this.addFirstItem(this.options.items.defaultName + this.nameIndexCounter);
 
 		this.addHandlers();
 
@@ -62,7 +62,7 @@ class InputTable {
 
 	addHandlers() {
 		this.table.on("click", "tbody tr button.btn-extend", (event) => {
-			this.extendTable(this.options.defaultItemName + this.nameIndexCounter, $(event.currentTarget).attr('item-id'));
+			this.extendTable(this.options.items.defaultName + this.nameIndexCounter, $(event.currentTarget).attr('item-id'));
 		});
 
 		this.table.on("click", "tbody tr button.btn-reduce", (event) => {
@@ -87,12 +87,12 @@ class InputTable {
 	}
 
 	extendTableWithDefaultName(index) {
-		this.extendTable(this.options.defaultItemName + this.nameIndexCounter, index);
+		this.extendTable(this.options.items.defaultName + this.nameIndexCounter, index);
 	}
 
 	constructButtonRow () {
 		let buttonRow = $("<tr id='button-row'>");
-		for (let i=0; i<this.headerLeftCellsNumber; i++)
+		for (let i=0; i<this.leftHeaderCellsNumber; i++)
 			buttonRow.append($("<td>"));
 
 		this.tbody.append(buttonRow);
@@ -100,7 +100,7 @@ class InputTable {
 
 	constructHeaderRow() {
 		let headerRow = $("<tr id='header-row'>");
-		for (let i=0; i<this.headerLeftCellsNumber; i++)
+		for (let i=0; i<this.leftHeaderCellsNumber; i++)
 			headerRow.append($("<th>"));
 
 		this.tbody.append(headerRow);
@@ -125,8 +125,7 @@ class InputTable {
 		index = Number(index);
 
 		$(this.tbody.children('.content-row')).each((i, row) => {
-			if (i >= this.headerTopCellsNumber)
-				this.shiftRow($(row), index, +1);
+			this.shiftRow($(row), index, +1);
 		});
 
 		let row = $("<tr class='content-row'>");
@@ -135,7 +134,7 @@ class InputTable {
 		this.addLeftHeaderCell(row, rowName, index);		
 		
 		row.attr("row-id", index);
-		this.tbody.appendAt(row, index + this.headerTopCellsNumber);
+		this.tbody.appendAt(row, index + this.topHeaderCellsNumber);
 	}
 
 	shiftRow (row, index, diff) {
@@ -147,7 +146,7 @@ class InputTable {
 			row.attr("row-id", id + diff);				
 
 			$(row.children()).each((i, cell) => {
-				if (i >= this.headerLeftCellsNumber)
+				if (i >= this.leftHeaderCellsNumber)
 					this.shiftRowCells($(cell), index, diff);
 			});
 
@@ -179,7 +178,7 @@ class InputTable {
 		$(this.tbody.children('.content-row')).each((i, row) => {
 
 			$($(row).children()).each((i, cell) => {
-				this.shiftCellsCol($(cell), index, +1);
+				this.shiftCellsColumn($(cell), index, +1);
 			});
 		});
 
@@ -192,7 +191,7 @@ class InputTable {
 		this.addMissingCells(index, "0");
 	}
 
-	shiftCellsCol (cell, index, diff) {
+	shiftCellsColumn (cell, index, diff) {
 		index = Number(index);
 		diff = Number(diff);
 
@@ -262,8 +261,10 @@ class InputTable {
 		if (!this.options.headers.addLeftHeaders) return;
 
 		let headerCell = $("<th>");
-		headerCell.text(itemName);
-		headerCell.attr("header-id", index).attr("contenteditable", true);
+		headerCell.text(itemName).attr("header-id", index);
+
+		if (this.options.headersEditable)
+			headerCell.attr("contenteditable", true);
 		row.append(headerCell);
 	}
 
@@ -273,7 +274,7 @@ class InputTable {
 		index = Number(index);
 
 		let buttonRow = $(this.tbody.children('#button-row'));
-		buttonRow.appendAt(this.constructButtonCell(index), index + this.headerLeftCellsNumber);
+		buttonRow.appendAt(this.constructButtonCell(index), index + this.leftHeaderCellsNumber);
 	}
 
 	addTopHeaderCell (name, index) {
@@ -282,8 +283,11 @@ class InputTable {
 		index = Number(index);
 		let headerRow =  $(this.tbody.children('#header-row'));
 
-		let cell = $("<th>").text(name).attr("contenteditable", true).attr("header-id", index);
-		headerRow.appendAt(cell, index+this.headerLeftCellsNumber);
+		let cell = $("<th>").text(name).attr("header-id", index);
+		if (this.options.headersEditable)
+			cell.attr("contenteditable", true);
+
+		headerRow.appendAt(cell, index+this.leftHeaderCellsNumber);
 	}
 
 	addMissingCells(index, value) {
@@ -306,19 +310,19 @@ class InputTable {
 
 		cell.attr("row-id", row.attr("row-id"));
 
-		if (row.children().length === this.headerLeftCellsNumber)
+		if (row.children().length === this.leftHeaderCellsNumber)
 			cell.attr("col-id", 0);
 		else
-			cell.attr("col-id", Number(row.children(":nth-child("+(index+this.headerLeftCellsNumber)+")").attr("col-id"))+1);
+			cell.attr("col-id", Number(row.children(":nth-child("+(index+this.leftHeaderCellsNumber)+")").attr("col-id"))+1);
 
-			if (Number(cell.attr("row-id")) === Number (cell.attr("col-id"))) {
+		if (Number(cell.attr("row-id")) === Number (cell.attr("col-id"))) {
 			cell.addClass("td-disabled");
 			cell.text("M");
 		}
-		else
+		else if (this.options.editable)
 			cell.attr("contenteditable", true);
 
-		row.appendAt(cell, index+this.headerLeftCellsNumber);
+		row.appendAt(cell, index+this.leftHeaderCellsNumber);
 	}
 
 	reduceTable (index) {
@@ -340,7 +344,7 @@ class InputTable {
 			this.shiftRow($(row), index, -1);
 		});
 
-		this.tbody.removeAt(index);
+		this.tbody.removeAt(index + this.topHeaderCellsNumber);
 	}
 
 	deleteColumn (index) {
@@ -349,31 +353,32 @@ class InputTable {
 		$(this.tbody.children('.content-row')).each((i, row) => {
 		
 			$($(row).children()).each((i, cell) => {
-				this.shiftCellsCol($(cell), index, -1);
+				this.shiftCellsColumn($(cell), index, -1);
 			});
 
-			$(row).removeAt(index - 1);
+			$(row).removeAt(index + this.leftHeaderCellsNumber);
 		});
 		this.shiftHeaderCells(index, -1);
 		this.shiftButtonCells(index, -1);
 
-		this.deleteButtonCell(index-1);
-		this.deleteHeaderCell(index-1);
+		this.deleteButtonCell(index);
+		this.deleteHeaderCell(index);
 	}
 
 	deleteButtonCell(index) {
 		if (!this.options.headers.addTopButtons) return;
 
 		index = Number(index);
-		$(this.tbody.children('#button-row')).removeAt(index);
+		$(this.tbody.children('#button-row')).removeAt(index + this.leftHeaderCellsNumber);
 	}
 
 	deleteHeaderCell(index) {
 		if (!this.options.headers.addTopHeaders) return;
 
 		index = Number(index);
-		$(this.tbody.children('#header-row')).removeAt(index);
+		$(this.tbody.children('#header-row')).removeAt(index + this.leftHeaderCellsNumber);
 	}
+
 	getData() {
 		let a = new Array();
 

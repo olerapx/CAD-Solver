@@ -1,13 +1,17 @@
 var tableOptions = {
-	defaultItemName: 'A',
-	startItemIndex: 1,
+	items: {
+		defaultName: 'A',
+		startNameIndex: 1	
+	},
 	headers: {
 		addTopButtons: true,
 		addTopHeaders: true,
 		addLeftButtons: true,
 		addLeftHeaders: true
 	},
-	symmetrical: false
+	symmetrical: false,
+	editable: true,
+	headersEditable: true
 };
 
 var table = new InputTable("div.input-matrix", tableOptions);
