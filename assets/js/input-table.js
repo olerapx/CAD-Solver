@@ -23,8 +23,18 @@ class InputTable {
 		this.options = options;
 		element = $(element);
 
-		this.itemCounter = 0;
-		this.nameIndexCounter = this.options.items.startNameIndex;
+		this.rowCounter = 0;
+		this.columnCounter = 0;
+
+		this.topHeaderGenericNameIndex = this.options.headers.startNameIndex;
+		this.leftHeaderGenericNameIndex = this.options.headers.startNameIndex;
+		this.topHeaderCustomNameIndex = 0;
+		this.leftHeaderCustomNameIndex = 0;
+
+		this.hasCustomTopHeaderName = true;
+		this.hasCustomLeftHeaderName = true;
+
+		if (this.options.buttons.affect!=='both') this.options.content.diagonalElementsDisabled = false;
 
 		this.topHeaderCellsNumber = 0;
 		this.leftHeaderCellsNumber = 0;
@@ -33,23 +43,23 @@ class InputTable {
 		this.tbody = $("<tbody>");
 		this.table.append(this.tbody);
 
-		if (this.options.headers.addLeftButtons)
+		if (this.options.buttons.addLeft)
 			this.leftHeaderCellsNumber ++;
 
-		if (this.options.headers.addLeftHeaders)
+		if (this.options.headers.addLeft)
 			this.leftHeaderCellsNumber ++;	
 
-		if (this.options.headers.addTopButtons) {
+		if (this.options.buttons.addTop) {
 			this.topHeaderCellsNumber ++;
 			this.constructButtonRow();
 		}
 		
-		if (this.options.headers.addTopHeaders) {
+		if (this.options.headers.addTop) {
 			this.topHeaderCellsNumber ++;
 			this.constructHeaderRow();
 		}	
 
-		this.addFirstItem(this.options.items.defaultName + this.nameIndexCounter);
+		this.addFirstItem(this.getNextLeftHeaderName(), this.getNextTopHeaderName());
 
 		this.addHandlers();
 
@@ -62,7 +72,7 @@ class InputTable {
 
 	addHandlers() {
 		this.table.on("click", "tbody tr button.btn-extend", (event) => {
-			this.extendTable(this.options.items.defaultName + this.nameIndexCounter, $(event.currentTarget).attr('item-id'));
+			this.extendTableWithDefaultName($(event.currentTarget).attr('item-id'));
 		});
 
 		this.table.on("click", "tbody tr button.btn-reduce", (event) => {
@@ -70,7 +80,7 @@ class InputTable {
 		});
 
 		/* symmetrical value change */
-		if(this.options.symmetrical) {
+		if(this.options.content.symmetrical) {
 			this.table.on("input propertychange paste", "tbody tr.content-row td", (event) => {
 				let rowID = Number($(event.currentTarget).attr("row-id"));
 				let colID = Number($(event.currentTarget).attr("col-id"));
@@ -86,8 +96,42 @@ class InputTable {
 		});		
 	}
 
-	extendTableWithDefaultName(index) {
-		this.extendTable(this.options.items.defaultName + this.nameIndexCounter, index);
+	extendTableWithDefaultName(index, force = false) {
+		this.extendTable(this.getNextLeftHeaderName(), this.getNextTopHeaderName(), index, force);
+	}
+
+	getNextLeftHeaderName() {
+		if (typeof this.options.headers.leftTitles !== 'undefined' && this.hasCustomLeftHeaderName) {
+			let name = this.options.headers.leftTitles[this.leftHeaderCustomNameIndex];
+
+			if (typeof name === 'undefined')		
+				this.hasCustomLeftHeaderName = false;
+			else {
+				this.leftHeaderCustomNameIndex++;
+				return name;	
+			}
+		}
+
+		let name = this.options.headers.leftGenericHeader+this.leftHeaderGenericNameIndex;
+		this.leftHeaderGenericNameIndex++ ;
+		return name;	
+	}
+
+	getNextTopHeaderName() {
+		if (typeof this.options.headers.topTitles !== 'undefined' && this.hasCustomTopHeaderName) {
+			let name = this.options.headers.topTitles[this.topHeaderCustomNameIndex];
+
+			if (typeof name === 'undefined')			
+				this.hasCustomTopHeaderName = false;
+			else {
+				this.topHeaderCustomNameIndex++;
+				return name;	
+			}
+		}
+
+		let name = this.options.headers.topGenericHeader+this.topHeaderGenericNameIndex;
+		this.topHeaderGenericNameIndex++ ;
+		return name;	
 	}
 
 	constructButtonRow () {
@@ -106,23 +150,31 @@ class InputTable {
 		this.tbody.append(headerRow);
 	}
 
-	addFirstItem(itemName) {
-		if (this.itemCounter === 0)
-			this.extendTable(itemName, -1);
+	addFirstItem(rowName, colName) {
+		if (!(this.rowCounter === 0 && this.columnCounter === 0)) return;
+
+	 	let index = -1
+		this.columnCounter ++;
+
+		this.addRow(rowName, index + 1);
+
+		this.addTopButtonCell(index+1);
+		this.addTopHeaderCell(colName, index+1);
 	}
 
-	extendTable (itemName, index) {
+	extendTable (rowName, colName, index, force = false) {
 		index = Number(index);
-		this.itemCounter ++;
 
-		this.addRow(itemName, index + 1);
-		this.addColumn (itemName, index + 1);
+		if (force || this.options.buttons.affect === 'row' || this.options.buttons.affect === 'both')			
+			this.addRow(rowName, index + 1);			
 
-		this.nameIndexCounter++;
+		if (force || this.options.buttons.affect === 'column' || this.options.buttons.affect === 'both')
+			this.addColumn (colName, index + 1);
 	}
 
 	addRow(rowName, index) {
 		index = Number(index);
+		this.rowCounter ++;
 
 		$(this.tbody.children('.content-row')).each((i, row) => {
 			this.shiftRow($(row), index, +1);
@@ -131,9 +183,13 @@ class InputTable {
 		let row = $("<tr class='content-row'>");
 
 		this.addLeftButtonCell(row, index);
-		this.addLeftHeaderCell(row, rowName, index);		
-		
+		this.addLeftHeaderCell(row, rowName, index);	
+
 		row.attr("row-id", index);
+
+		for (let i = 0; i < this.columnCounter; i++)
+			this.addCell(row, i);
+
 		this.tbody.appendAt(row, index + this.topHeaderCellsNumber);
 	}
 
@@ -147,22 +203,22 @@ class InputTable {
 
 			$(row.children()).each((i, cell) => {
 				if (i >= this.leftHeaderCellsNumber)
-					this.shiftRowCells($(cell), index, diff);
+					this.shiftCellsRow($(cell), index, diff);
 			});
 
-			if (this.options.headers.addLeftButtons) {
+			if (this.options.buttons.addLeft) {
 				row.children("td.button-cell").children().each((i, btn) => {
 					$(btn).attr("item-id", id + diff);
 				});
 			}
 
-			if (this.options.headers.addLeftHeaders) {
+			if (this.options.headers.addLeft) {
 				row.children("th").attr("header-id", id + diff);
 			}
 		}
 	}
 
-	shiftRowCells(cell, index, diff) {
+	shiftCellsRow(cell, index, diff) {
 		index = Number(index);
 		diff = Number(diff);
 
@@ -174,6 +230,7 @@ class InputTable {
 
 	addColumn (colName, index) {
 		index = Number(index);
+		this.columnCounter ++;
 
 		$(this.tbody.children('.content-row')).each((i, row) => {
 
@@ -188,7 +245,10 @@ class InputTable {
 		this.addTopButtonCell(index);
 
 		this.addTopHeaderCell(colName, index);
-		this.addMissingCells(index, "0");
+
+		$(this.tbody.children('.content-row')).each((i, row) => {
+			this.addCell($(row), index);
+		});
 	}
 
 	shiftCellsColumn (cell, index, diff) {
@@ -199,6 +259,11 @@ class InputTable {
 
 		if (id >= index)
 			cell.attr("col-id", id + diff);
+
+		if (Number(cell.attr('col-id')) !== Number(cell.attr('row-id')) && cell.hasClass("td-disabled")) {
+			cell.removeClass('td-disabled');
+			cell.text(this.options.content.defaultValue);
+		}
 	}
 
 	shiftButtonCells(index, diff) {
@@ -234,7 +299,7 @@ class InputTable {
 	}
 
 	addLeftButtonCell(row, index) {
-		if (!this.options.headers.addLeftButtons) return;
+		if (!this.options.buttons.addLeft) return;
 
 		let cell = this.constructButtonCell(index);
 		cell.addClass('button-cell');
@@ -258,18 +323,18 @@ class InputTable {
 	}
 
 	addLeftHeaderCell(row, itemName, index) {
-		if (!this.options.headers.addLeftHeaders) return;
+		if (!this.options.headers.addLeft) return;
 
 		let headerCell = $("<th>");
 		headerCell.text(itemName).attr("header-id", index);
 
-		if (this.options.headersEditable)
+		if (this.options.headers.editable)
 			headerCell.attr("contenteditable", true);
 		row.append(headerCell);
 	}
 
 	addTopButtonCell (index) {
-		if (!this.options.headers.addTopButtons) return;
+		if (!this.options.buttons.addTop) return;
 
 		index = Number(index);
 
@@ -278,35 +343,22 @@ class InputTable {
 	}
 
 	addTopHeaderCell (name, index) {
-		if (!this.options.headers.addTopHeaders) return;
+		if (!this.options.headers.addTop) return;
 
 		index = Number(index);
 		let headerRow =  $(this.tbody.children('#header-row'));
 
 		let cell = $("<th>").text(name).attr("header-id", index);
-		if (this.options.headersEditable)
+		if (this.options.headers.editable)
 			cell.attr("contenteditable", true);
 
 		headerRow.appendAt(cell, index+this.leftHeaderCellsNumber);
 	}
 
-	addMissingCells(index, value) {
+	addCell(row, index) {
 		index = Number(index);
 
-		$(this.tbody.children('.content-row')).each((i, row) => {
-
-			if (i != index)
-				this.addCell($(row), value, index);
-			else 
-				for (let j = 0; j < this.itemCounter; j++)
-					this.addCell($(row), value, j);
-		});
-	}
-
-	addCell(row, value, index) {
-		index = Number(index);
-
-		let cell = $("<td>").text(value);
+		let cell = $("<td>").text(this.options.content.defaultValue);
 
 		cell.attr("row-id", row.attr("row-id"));
 
@@ -315,25 +367,28 @@ class InputTable {
 		else
 			cell.attr("col-id", Number(row.children(":nth-child("+(index+this.leftHeaderCellsNumber)+")").attr("col-id"))+1);
 
-		if (Number(cell.attr("row-id")) === Number (cell.attr("col-id"))) {
+		if (Number(cell.attr("row-id")) === Number (cell.attr("col-id")) && this.options.content.diagonalElementsDisabled) {
 			cell.addClass("td-disabled");
 			cell.text("M");
 		}
-		else if (this.options.editable)
+		else if (this.options.content.editable)
 			cell.attr("contenteditable", true);
 
 		row.appendAt(cell, index+this.leftHeaderCellsNumber);
 	}
 
 	reduceTable (index) {
-		if (this.itemCounter <= 1) return;
-
 		index = Number(index);
 
-		this.deleteRow(index);
-		this.deleteColumn(index);
+		if (this.options.buttons.affect === 'row' || this.options.buttons.affect === 'both' && this.rowCounter > 1) {
+			this.deleteRow(index);
+			this.rowCounter --;
+		}
 
-		this.itemCounter--;
+		if (this.options.buttons.affect === 'column' || this.options.buttons.affect === 'both' && this.columnCounter > 1) {			
+			this.deleteColumn(index);
+			this.columnCounter --;
+		}
 	}
 
 	deleteRow (index) {
@@ -366,14 +421,14 @@ class InputTable {
 	}
 
 	deleteButtonCell(index) {
-		if (!this.options.headers.addTopButtons) return;
+		if (!this.options.buttons.addTop) return;
 
 		index = Number(index);
 		$(this.tbody.children('#button-row')).removeAt(index + this.leftHeaderCellsNumber);
 	}
 
 	deleteHeaderCell(index) {
-		if (!this.options.headers.addTopHeaders) return;
+		if (!this.options.headers.addTop) return;
 
 		index = Number(index);
 		$(this.tbody.children('#header-row')).removeAt(index + this.leftHeaderCellsNumber);
