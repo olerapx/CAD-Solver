@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <body class="container"><img class="page-bg">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-sm-8 col-sm-offset-2">
+          <h1 class="display-1 text-center page-title text-primary">Открытая задача коммивояжера</h1><br>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title"><a data-toggle="collapse" href="#el1">Теория</a></h4>
+        </div>
+        <div class="panel-collapse collapse" id="el1">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-lg-12 text-justify">
+                <p><strong>Задача коммивояжера</strong> — задача комбинаторной оптимизации, заключающаяся в отыскании самого выгодного маршрута, проходящего через указанные города хотя бы по одному разу с последующим возвратом в исходный город. Обычно указывается, что маршрут должен проходить через каждый город только один раз, условие задается в виде матрицы расстояний.</p>
+                <p><strong>Открытая задача коммивояжера</strong> отличается тем, что начальная и конечная точки маршрута могут не совпадать.</p>
+                <p>Проблему коммивояжера можно представить в виде модели на графе, то есть, используя вершины и ребра между ними. Таким образом, вершины графа соответствуют городам, а ребра <em>(i,j)</em> между вершинами <em>i, j</em> — пути сообщения между этими городами.</p>
+                <p><strong>Гамильтонов граф</strong> представляет собой граф, который содержит гамильтонов цикл. При этом <strong>гамильтоновым циклом</strong> является такой цикл (замкнутый путь), который проходит через каждую вершину данного графа ровно по одному разу.</p>
+                <p>Также с гамильтоновым графом тесно связано понятие <strong>гамильтонова пути</strong>, который является путем без петель, проходящим через каждую вершину графа ровно один раз. Гамильтонов путь отличается от цикла тем, что у пути начальные и конечные точки могут не совпадать, в отличие от цикла.</p>
+                <p>В случае открытой задачи коммивояжера решение сводится к отысканию кратчайшего гамильтонового пути графа.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">Данные</h4>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="input-matrix"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <button class="btn btn-success" id="btn-solve" type="submit">Решить</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default hidden" id="div-result">
+        <div class="panel-heading">
+          <h4 class="panel-title"><a data-toggle="collapse" href="#el3">Решение</a></h4>
+        </div>
+        <div class="panel-collapse collapse" id="el3">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-lg-12"> 
+                <p id="result"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script defer src="js/input-table.js"></script>
+    <script defer src="js/input-table-handler.js"></script>
+  </body>
+</html>

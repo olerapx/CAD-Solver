@@ -1,0 +1,155 @@
+indexBg = "../res/index-bg.jpg"
+
+whiteColor = #CFCFCF
+backgroundColor = #FAFAFA
+borderColor = #E6E9ED
+jumbotronBgColor = rgba(34,34,34,0.75)
+disabledCellColor = #D7D7D7 
+
+maxButtonsLineWidth = 700px
+footerHeight = 1em
+
+size(h, w) {
+	height h
+	width w
+}
+
+html
+
+	margin 0
+	padding 0
+	border 0
+
+body
+	@extend html
+	background-image url(indexBg)
+	background-position center top
+	background-attachment fixed
+	background-repeat no-repeat
+	background-size cover
+	background-color backgroundColor
+
+.container-index
+	width 95vw
+
+hr
+	color whiteColor
+	width 80%
+
+.text-white
+	color whiteColor !important
+
+.jumbotron-black-transparent
+	background:jumbotronBgColor !important
+
+.horizontal-center
+	display flex
+	flex-direction column
+	align-items center
+
+@media (min-height: 660px) and (min-width: 500px)
+	.vertical-center
+		margin: 10vh 0
+
+.page-bg 
+	size(0px, 0px)
+	position absolute
+
+ul.main-buttons
+	white-space nowrap
+
+@media(max-width:maxButtonsLineWidth)
+	ul.main-buttons > li
+		display block
+		margin-bottom 20px
+		padding 0
+
+	ul.main-buttons > li:last-child
+		margin-bottom 0
+
+ul.main-buttons > li > a
+	width 180px !important
+
+.row-spacing
+	margin-bottom 3.5em
+
+.img-icon
+	size(100px, 100px)
+	margin 0 auto
+
+#wrap
+	min-height 82.5vh
+
+#main
+	overflow auto
+	padding-bottom footerHeight
+
+.about-footer
+	position relative
+	margin-top -(footerHeight)
+	height footerHeight
+	clear both
+
+.input-table
+	width auto !important
+	margin-top 20px
+
+th, td
+	vertical-align middle !important
+	text-align center !important
+
+.td-disabled
+	background-color disabledCellColor
+	
+.panel-default
+	border 1px solid borderColor
+	box-shadow none
+	
+.x_panel 
+	position relative 
+	width 100% 
+	margin-bottom 10px 
+	padding 0px 17px 
+	display inline-block 
+	border 1px solid borderColor
+	column-break-inside avoid
+	opacity 1 
+	transition all .2s ease 
+
+.x_title
+	border-bottom 1px solid borderColor
+	padding 0px 5px 6px 
+	margin-bottom 10px 
+
+.x_title .filter
+	width 40% 
+	float right 
+
+.x_title h2
+	margin 5px 0 6px 
+	float left 
+	display block 
+	text-overflow ellipsis 
+	overflow hidden 
+	white-space nowrap 
+
+.x_title h2 small
+	margin-left 10px 
+
+.x_title span
+	color borderColor
+
+.x_content
+	padding 0 5px 6px 
+	position relative 
+	width 100% 
+	float left 
+	clear both 
+	margin-top 5px 
+
+.x_content h4
+	font-size 16px 
+	font-weight 500 
+
+.input-matrix
+	overflow-x auto
