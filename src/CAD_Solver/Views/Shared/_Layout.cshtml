@@ -10,7 +10,7 @@
       <link href="~/css/style.css" rel="stylesheet">
     </environment>
     <environment names="Staging, Production">
-      <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute">
+      <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
       <link href="~/css/style.min.css" rel="stylesheet">
     </environment>
   </head>
@@ -18,27 +18,27 @@
     <nav class="navbar navbar-default">
       <div class="navbar-header">
         <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">ToggleNavigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-        </button><a class="navbar-brand" href="#">CAD</a>
+        </button><a class="navbar-brand">CAD</a>
       </div>
       <div class="navbar-collapse collapse" id="navbar">
         <ul class="nav navbar-nav">
-          <li class="active" data-page="main.html"><a href="#">Главная</a></li>
+          <li class="active"><a asp-controller="Home" asp-action="Index">Главная</a></li>
           <li class="dropdown nav-algos"><a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Алгоритмы<span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li data-page="otsp.html"><a href="#">Коммивояжер</a></li>
-              <li data-page="2dsp.html"><a href="#">Упаковка</a></li>
-              <li><a href="#">Клика</a></li>
+              <li><a asp-controller="Home" asp-action="Otsp">Коммивояжер</a></li>
+              <li><a asp-controller="Home" asp-action="Dsp">Упаковка</a></li>
+              <li><a>Клика</a></li>
             </ul>
           </li>
-          <li data-page="about.html"><a href="#">О нас</a></li>
+          <li><a asp-controller="Home" asp-action="About">О нас</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li id="li-signup"><a href="#">Регистрация</a></li>
           <li id="li-login"><a href="#" data-toggle="modal" data-target="#loginModal">Вход</a></li>
-          <li class="dropdown-hidden" id="li-username"><a class="dropdown-toggle" id="a-username" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
+          <li class="dropdown-hidden" id="li-username"><a class="dropdown-toggle hidden" id="a-username" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li id="li-stat" data-page="stats.html"><a href="#">Статистика</a></li>
-              <li id="li-logout"><a href="#">Выход</a></li>
+              <li id="li-stat"><a asp-controller="Home" asp-action="Stats">Статистика</a></li>
+              <li id="li-logout"><a>Выход</a></li>
             </ul>
           </li>
         </ul>
@@ -48,13 +48,6 @@
       @RenderBody()
       
     </div>
-    <environment names="Development">
-      <script src="~/lib/jquery/dist/jquery.js"></script>
-      <script defer src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    </environment>
-    <environment names="Staging, Production"></environment>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js" asp-fallback-test="window.jQuery"></script>
-    <script defer src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test="window.jQuery &amp;&amp; window.jQuery.fn &amp;&amp; window.jQuery.fn.modal"></script>
     <div class="modal fade" id="loginModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -79,5 +72,13 @@
         </div>
       </div>
     </div>
+    <environment names="Development">
+      <script src="~/lib/jquery/dist/jquery.js"></script>
+      <script defer src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </environment>
+    <environment names="Staging, Production">
+      <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js" asp-fallback-test="window.jQuery"></script>
+      <script defer src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"></script>
+    </environment>@RenderSection("scripts", required: false)
   </body>
 </html>

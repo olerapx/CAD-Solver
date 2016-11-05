@@ -54,12 +54,13 @@ namespace CAD_Solver
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error/");
             }
 
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
+            app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 
             app.UseMvc(routes =>
             {

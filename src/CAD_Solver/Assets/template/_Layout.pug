@@ -12,7 +12,7 @@ html(lang="ru")
 			link(href="~/css/style.css", rel="stylesheet")
 
 		environment(names="Staging, Production")
-			link(rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute")
+			link(rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css")
 			link(href="~/css/style.min.css", rel="stylesheet")
 
 	body.container-fluid
@@ -23,49 +23,40 @@ html(lang="ru")
 					- for(var i = 0; i < 3; i++) {
 					span.icon-bar
 					- }
-				a.navbar-brand(href="#") CAD
+				a.navbar-brand CAD
 
 			div.navbar-collapse.collapse#navbar
 				ul.nav.navbar-nav
-					li.active(data-page="main.html")
-						a(href="#") Главная
+					li.active
+						a(asp-controller="Home" asp-action="Index") Главная
 					li.dropdown.nav-algos
 						a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") Алгоритмы
 							span.caret
 						ul.dropdown-menu
-							li(data-page="otsp.html")
-								a(href="#") Коммивояжер
-							li(data-page="2dsp.html")
-								a(href="#") Упаковка
 							li
-								a(href="#") Клика
-					li(data-page="about.html")
-						a(href="#") О нас
+								a(asp-controller="Home" asp-action="Otsp") Коммивояжер
+							li
+								a(asp-controller="Home" asp-action="Dsp") Упаковка
+							li
+								a Клика
+					li
+						a(asp-controller="Home" asp-action="About") О нас
 				ul.nav.navbar-nav.navbar-right
 					li#li-signup
 						a(href="#") Регистрация
 					li#li-login
 						a(href="#", data-toggle="modal", data-target="#loginModal") Вход
 					li.dropdown-hidden#li-username
-						a.dropdown-toggle#a-username(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false")
+						a.dropdown-toggle.hidden#a-username(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false")
 							span.caret
 						ul.dropdown-menu
-							li#li-stat(data-page="stats.html")
-								a(href="#") Статистика
+							li#li-stat
+								a(asp-controller="Home" asp-action="Stats") Статистика
 							li#li-logout
-								a(href="#") Выход
+								a Выход
 
 		div.container.container-index.
 			@RenderBody()
-
-		environment(names="Development")
-			script(src="~/lib/jquery/dist/jquery.js")
-			script(defer src="~/lib/bootstrap/dist/js/bootstrap.js")
-		environment(names="Staging, Production")
-
-		script(src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js" asp-fallback-test="window.jQuery")
-		script(defer src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal")
-
 
 		//-	
 			modals
@@ -86,3 +77,11 @@ html(lang="ru")
 								input.form-control#login-pass(type="password", placeholder="Пароль")
 							button.btn.btn-success#login-submit(type="submit") Войти
 							button.btn.btn-default(type="button", data-dismiss="modal") Отмена
+
+		environment(names="Development")
+			script(src="~/lib/jquery/dist/jquery.js")
+			script(defer src="~/lib/bootstrap/dist/js/bootstrap.js")
+		environment(names="Staging, Production")
+			script(src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js" asp-fallback-test!="window.jQuery")
+			script(defer src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test!="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal")
+		| @RenderSection("scripts", required: false)

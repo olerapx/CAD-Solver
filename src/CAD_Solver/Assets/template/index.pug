@@ -8,10 +8,10 @@ body.container-fluid
 					hr
 					p.text-white Попробуйте сейчас:
 					ul.list-inline.main-buttons
-						li(data-page="otsp.html")
-							a.btn.btn-primary.btn-lg(href="#") Коммивояжер
-						li(data-page="2dsp.html")
-							a.btn.btn-primary.btn-lg(href="#") Упаковка
 						li
-							a.btn.btn-primary.btn-lg(href="#") Клика
+							a.btn.btn-primary.btn-lg(asp-controller="Home" asp-action="Otsp") Коммивояжер
+						li
+							a.btn.btn-primary.btn-lg(asp-controller="Home" asp-action="Dsp") Упаковка
+						li
+							a.btn.btn-primary.btn-lg Клика
 			div.push

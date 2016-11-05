@@ -29,7 +29,7 @@ paths.libsSrcDir = './node_modules';
 
 paths.libsSrc = {
     "jquery": '/jquery/**/*.{js,map}',
-    "bootstrap": '/bootstrap/**/*.{js,map,css,ttf,svg,woff,eot}',
+    "bootstrap": '/bootstrap/**/*.{js,map,ttf,svg,woff,eot}', /* return .css here when themes are not needed */
     "chart.js": '/chart.js/**/*.{js,map}'
 };
 paths.bootstrapThemeSrc = paths.src + '/bootstrap_theme/**/*';

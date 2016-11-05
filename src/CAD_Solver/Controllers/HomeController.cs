@@ -8,8 +8,8 @@ namespace CAD_Solver.Controllers
 {
     public class HomeController : Controller
     {
+        [Route("")]
         [Route("index")]
-        [Route ("")]
         public IActionResult Index()
         {
             return View();
@@ -39,7 +39,6 @@ namespace CAD_Solver.Controllers
             return View();
         }
 
-        [Route("error")]
         public IActionResult Error()
         {
             return View();
