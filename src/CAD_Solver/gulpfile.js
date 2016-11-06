@@ -23,9 +23,9 @@ paths.imgSrc = paths.src + '/img/**/*';
 paths.jsSrc = paths.src + '/js/**/*.js';
 paths.stylusSrc = paths.src + '/stylus/**/*.styl';
 paths.templateSrc = paths.src + '/template/**/*.pug';
-paths.templateSharedSrc = paths.src + '/template/_Layout.pug';
 
 paths.libsSrcDir = './node_modules';
+paths.views = "./Views";
 
 paths.libsSrc = {
     "jquery": '/jquery/**/*.{js,map}',
@@ -37,12 +37,11 @@ paths.bootstrapThemeSrc = paths.src + '/bootstrap_theme/**/*';
 paths.imgDest = paths.webroot + '/img';
 paths.jsDest = paths.webroot + '/js';
 paths.cssDest = paths.webroot + '/css';
+paths.htmlDest = paths.views;
+
 paths.libsDest = paths.webroot + '/lib';
 paths.bootstrapThemeDest = paths.libsDest + '/bootstrap/dist/css';
 
-paths.views = "./Views";
-paths.htmlSharedDest = paths.views + "/Shared";
-paths.htmlHomeDest = paths.views + "/Home";
 
 gulp.task('img', () => {
     return gulp.src(paths.imgSrc)
@@ -93,23 +92,13 @@ gulp.task('css:rel', () => {
 });
 
 gulp.task('html', () => {
-    return gulp.src([paths.templateSrc, '!' + paths.templateSharedSrc])
+    return gulp.src(paths.templateSrc)
         .pipe(plumber())
          .pipe(pug({
              pretty: true
          }))
          .pipe(rename({ extname: '.cshtml' }))
-        .pipe(gulp.dest(paths.htmlHomeDest));        
-});
-
-gulp.task('html:shared', () => {
-    return gulp.src(paths.templateSharedSrc)
-        .pipe(plumber())
-         .pipe(pug({
-             pretty: true
-         }))
-         .pipe(rename({ extname: '.cshtml' }))
-        .pipe(gulp.dest(paths.htmlSharedDest));
+        .pipe(gulp.dest(paths.htmlDest));        
 });
 
 gulp.task('libs', () => {
@@ -124,7 +113,7 @@ gulp.task('bootstrap:theme', () => {
         .pipe(gulp.dest(paths.bootstrapThemeDest));
 });
 
-gulp.task('build', sequence(['img', 'js', 'js:rel', 'css', 'css:rel', 'html', 'html:shared', 'libs'], ['bootstrap:theme']));
+gulp.task('build', sequence(['img', 'js', 'js:rel', 'css', 'css:rel', 'html', 'libs'], ['bootstrap:theme']));
 
 gulp.task('watch', function () {
     gulp.run('build');
@@ -132,5 +121,5 @@ gulp.task('watch', function () {
     gulp.watch(paths.imgSrc, ['img']);
     gulp.watch(paths.jsSrc, ['js', 'js:rel']);
     gulp.watch(paths.stylusSrc, ['css', 'css:rel']);
-    gulp.watch(paths.templateSrc, ['html', 'html:shared']);
+    gulp.watch(paths.templateSrc, ['html']);
 });
