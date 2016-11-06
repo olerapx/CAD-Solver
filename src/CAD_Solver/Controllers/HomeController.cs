@@ -21,8 +21,8 @@ namespace CAD_Solver.Controllers
             return View();
         }
 
-        [Route("dsp")]
-        public IActionResult Dsp()
+        [Route("tdsp")]
+        public IActionResult Tdsp()
         {
             return View();
         }

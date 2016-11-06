@@ -27,16 +27,13 @@ html(lang="ru")
 
 			div.navbar-collapse.collapse#navbar
 				ul.nav.navbar-nav
-					li.active
-						a(asp-controller="Home" asp-action="Index") Главная
+					menulink(asp-controller="Home" asp-action="Index" menu-text="Главная")
 					li.dropdown.nav-algos
 						a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") Алгоритмы
 							span.caret
 						ul.dropdown-menu
-							li
-								a(asp-controller="Home" asp-action="Otsp") Коммивояжер
-							li
-								a(asp-controller="Home" asp-action="Dsp") Упаковка
+							menulink(asp-controller="Home" asp-action="Otsp" menu-text="Коммивояжер")
+							menulink(asp-controller="Home" asp-action="Tdsp" menu-text="Упаковка")
 							li
 								a Клика
 					li
