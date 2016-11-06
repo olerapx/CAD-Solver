@@ -1,47 +1,43 @@
-doctype html
-html(lang="ru")
-	body.container
-		img.page-bg
-		div.container
-			div.row.text-center
-				div.col-sm-8.col-sm-offset-2
-					h1.display-1.text-center.page-title.text-primary Открытая задача коммивояжера
-					br
-			div.panel.panel-default
-				div.panel-heading
-					h4.panel-title
-						a(data-toggle="collapse", href="#el1") Теория
+div.container
+	div.row.text-center
+		div.col-sm-8.col-sm-offset-2
+			h1.display-1.text-center.page-title.text-primary Открытая задача коммивояжера
+			br
+	div.panel.panel-default
+		div.panel-heading
+			h4.panel-title
+				a(data-toggle="collapse", href="#el1") Теория
 
-				div.panel-collapse.collapse#el1
-					div.panel-body
-						div.row
-							div.col-lg-12.text-justify
-								p #[strong Задача коммивояжера] — задача комбинаторной оптимизации, заключающаяся в отыскании самого выгодного маршрута, проходящего через указанные города хотя бы по одному разу с последующим возвратом в исходный город. Обычно указывается, что маршрут должен проходить через каждый город только один раз, условие задается в виде матрицы расстояний.
-								p #[strong Открытая задача коммивояжера] отличается тем, что начальная и конечная точки маршрута могут не совпадать.
-								p Проблему коммивояжера можно представить в виде модели на графе, то есть, используя вершины и ребра между ними. Таким образом, вершины графа соответствуют городам, а ребра #[em (i,j)] между вершинами #[em i, j] — пути сообщения между этими городами.
-								p #[strong Гамильтонов граф] представляет собой граф, который содержит гамильтонов цикл. При этом #[strong гамильтоновым циклом] является такой цикл (замкнутый путь), который проходит через каждую вершину данного графа ровно по одному разу.
-								p Также с гамильтоновым графом тесно связано понятие #[strong гамильтонова пути], который является путем без петель, проходящим через каждую вершину графа ровно один раз. Гамильтонов путь отличается от цикла тем, что у пути начальные и конечные точки могут не совпадать, в отличие от цикла.
-								p В случае открытой задачи коммивояжера решение сводится к отысканию кратчайшего гамильтонового пути графа.
+		div.panel-collapse.collapse#el1
+			div.panel-body
+				div.row
+					div.col-lg-12.text-justify
+						p #[strong Задача коммивояжера] — задача комбинаторной оптимизации, заключающаяся в отыскании самого выгодного маршрута, проходящего через указанные города хотя бы по одному разу с последующим возвратом в исходный город. Обычно указывается, что маршрут должен проходить через каждый город только один раз, условие задается в виде матрицы расстояний.
+						p #[strong Открытая задача коммивояжера] отличается тем, что начальная и конечная точки маршрута могут не совпадать.
+						p Проблему коммивояжера можно представить в виде модели на графе, то есть, используя вершины и ребра между ними. Таким образом, вершины графа соответствуют городам, а ребра #[em (i,j)] между вершинами #[em i, j] — пути сообщения между этими городами.
+						p #[strong Гамильтонов граф] представляет собой граф, который содержит гамильтонов цикл. При этом #[strong гамильтоновым циклом] является такой цикл (замкнутый путь), который проходит через каждую вершину данного графа ровно по одному разу.
+						p Также с гамильтоновым графом тесно связано понятие #[strong гамильтонова пути], который является путем без петель, проходящим через каждую вершину графа ровно один раз. Гамильтонов путь отличается от цикла тем, что у пути начальные и конечные точки могут не совпадать, в отличие от цикла.
+						p В случае открытой задачи коммивояжера решение сводится к отысканию кратчайшего гамильтонового пути графа.
 
-			div.panel.panel-default
-				div.panel-heading
-					h4.panel-title.
-						Данные
-				div.panel-body
-					div.row
-						div.col-lg-12
-							div.input-matrix
-					div.row
-						div.col-lg-4
-							button.btn.btn-success#btn-solve(type="submit") Решить
-			div.panel.panel-default.hidden#div-result
-				div.panel-heading
-					h4.panel-title
-						a(data-toggle="collapse", href="#el3") Решение
-				div.panel-collapse.collapse#el3
-					div.panel-body
-						div.row
-							div.col-lg-12 
-								p#result
-		script(defer, src="js/input-table.js")
-		script(defer, src="js/input-table-handler.js")
+	div.panel.panel-default
+		div.panel-heading
+			h4.panel-title.
+				Данные
+		div.panel-body
+			div.row
+				div.col-lg-12
+					div.input-matrix
+			div.row
+				div.col-lg-4
+					button.btn.btn-success#btn-solve(type="submit") Решить
+	div.panel.panel-default.hidden#div-result
+		div.panel-heading
+			h4.panel-title
+				a(data-toggle="collapse", href="#el3") Решение
+		div.panel-collapse.collapse#el3
+			div.panel-body
+				div.row
+					div.col-lg-12 
+						p#result
+script(defer src="js/input-table.js")
+script(defer src="js/input-table-handler.js")

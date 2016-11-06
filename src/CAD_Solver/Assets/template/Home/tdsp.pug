@@ -1,49 +1,48 @@
-body.container
-	div.container
-		div.row.text-center
-			div.col-sm-8.col-sm-offset-2
-				h1.display-1.text-center.page-title.text-primary Задача двумерной упаковки
-				br
-		div.panel.panel-default
-			div.panel-heading
-				h4.panel-title
-					a(data-toggle="collapse", href="#el1") Теория
-			div.panel-collapse.collapse#el1
-				div.panel-body
-					div.row
-						div.col-lg-12.text-justify
-							p #[strong Задача об упаковке в контейнеры] — NP-трудная комбинаторная задача. Задача заключается в упаковке объектов предопределённой формы в конечное число контейнеров предопределённой формы таким способом, чтобы число использованных контейнеров было наименьшим или количество или объём объектов (которые упаковывают) были наибольшими.
-							p Как частный случай задачи двумерной упаковки, #[strong задача упаковки в полуограниченную полосу] (2-Dimensional Strip Packing, 2DSP) заключается в упаковке объектов конкретной формы в конечное число контейнеров конкретной формы таким способом, чтобы число использованных контейнеров было наименьшим или количество или объем объектов (которые упаковывают) были наибольшими. Разница с двумерной упаковкой состоит в том, что есть только один контейнер, и вместо минимизации количества контейнеров, мы минимизируем высоту заполненности одного.
-							p У 2DSP есть два варианта входных данных: когда набор упаковываемых объектов известен заранее (offline-проблема) и когда данные поступают порциями (online-проблема). 
-
-		div.panel.panel-default
-			div.panel-heading
-				h4.panel-title.
-					Данные
+div.container
+	div.row.text-center
+		div.col-sm-8.col-sm-offset-2
+			h1.display-1.text-center.page-title.text-primary Задача двумерной упаковки
+			br
+	div.panel.panel-default
+		div.panel-heading
+			h4.panel-title
+				a(data-toggle="collapse", href="#el1") Теория
+		div.panel-collapse.collapse#el1
 			div.panel-body
 				div.row
-					div.col-lg-4
-						div.pack-table
-					div.col-lg-2
-						form(role="form")
-							div.form-group
-								label(for="width") Stripe width
-								input.form-control#stripe-width(type="width", placeholder="Ширина полосы")
+					div.col-lg-12.text-justify
+						p #[strong Задача об упаковке в контейнеры] — NP-трудная комбинаторная задача. Задача заключается в упаковке объектов предопределённой формы в конечное число контейнеров предопределённой формы таким способом, чтобы число использованных контейнеров было наименьшим или количество или объём объектов (которые упаковывают) были наибольшими.
+						p Как частный случай задачи двумерной упаковки, #[strong задача упаковки в полуограниченную полосу] (2-Dimensional Strip Packing, 2DSP) заключается в упаковке объектов конкретной формы в конечное число контейнеров конкретной формы таким способом, чтобы число использованных контейнеров было наименьшим или количество или объем объектов (которые упаковывают) были наибольшими. Разница с двумерной упаковкой состоит в том, что есть только один контейнер, и вместо минимизации количества контейнеров, мы минимизируем высоту заполненности одного.
+						p У 2DSP есть два варианта входных данных: когда набор упаковываемых объектов известен заранее (offline-проблема) и когда данные поступают порциями (online-проблема). 
+
+	div.panel.panel-default
+		div.panel-heading
+			h4.panel-title.
+				Данные
+		div.panel-body
+			div.row
+				div.col-lg-4
+					div.pack-table
+				div.col-lg-2
+					form(role="form")
+						div.form-group
+							label(for="width") Stripe width
+							input.form-control#stripe-width(type="width", placeholder="Ширина полосы")
+			div.row
+				div.col-lg-4
+					button.btn.btn-success#btn-solve(type="submit") Решить
+	div.panel.panel-default.hidden#div-result
+		div.panel-heading
+			h4.panel-title
+				a(data-toggle="collapse", href="#el3") Решение
+		div.panel-collapse.collapse#el3
+			div.panel-body
 				div.row
-					div.col-lg-4
-						button.btn.btn-success#btn-solve(type="submit") Решить
-		div.panel.panel-default.hidden#div-result
-			div.panel-heading
-				h4.panel-title
-					a(data-toggle="collapse", href="#el3") Решение
-			div.panel-collapse.collapse#el3
-				div.panel-body
-					div.row
-						div.col-lg-12 
-							p#result
-	environment(names="Development")
-		script(defer src="js/input-table.js")
-		script(defer src="js/pack-table-handler.js")
-	environment(names="Staging, Production")
-		script(defer src="js/input-table.min.js")
-		script(defer src="js/pack-table-handler.min.js")
+					div.col-lg-12 
+						p#result
+environment(names="Development")
+	script(defer src="js/input-table.js")
+	script(defer src="js/pack-table-handler.js")
+environment(names="Staging, Production")
+	script(defer src="js/input-table.min.js")
+	script(defer src="js/pack-table-handler.min.js")
