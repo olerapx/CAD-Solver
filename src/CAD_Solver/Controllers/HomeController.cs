@@ -9,7 +9,6 @@ namespace CAD_Solver.Controllers
     public class HomeController : Controller
     {
         [Route("")]
-        [Route("index")]
         public IActionResult Index()
         {
             return View();
