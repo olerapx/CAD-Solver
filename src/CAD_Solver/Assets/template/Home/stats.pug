@@ -34,5 +34,9 @@ div.container
 		div.col-lg-8.col-lg-offset-2
 			canvas#visitorsChart
 
-	script(src="libs/chart.js/chart.bundle.min.js")
-	script(src="js/stats-handler.js")
+	environment(names="Development")
+		script(defer src="~/lib/chart.js/dist/Chart.bundle.js")
+		script(defer src="~/js/stats-handler.js")
+	environment(names="Staging, Production")
+		script(defer src="~/lib/chart.js/dist/Chart.bundle.min.js")
+		script(defer src="~/js/stats-handler.min.js")
