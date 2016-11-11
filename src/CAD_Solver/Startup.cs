@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using CAD_Solver.Models;
 
 namespace CAD_Solver
 {
@@ -36,6 +38,9 @@ namespace CAD_Solver
         {
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
+
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<CadSolverDbContext>(options => options.UseSqlServer(connection));
 
             services.AddMvc();
 
@@ -71,6 +76,30 @@ namespace CAD_Solver
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            InitializeDatabase(app.ApplicationServices);
+        }
+
+        public void InitializeDatabase(IServiceProvider provider)
+        {
+            using (CadSolverDbContext db = provider.GetRequiredService<CadSolverDbContext>())
+            {
+                if (db.Genders.Count() == 0)
+                {
+                    db.Genders.Add(new Gender { Name = "Не указано" });
+                    db.Genders.Add(new Gender { Name = "Мужской" });
+                    db.Genders.Add(new Gender { Name = "Женский" });
+                }
+
+                if (db.Algorithms.Count() == 0)
+                {
+                    db.Algorithms.Add(new Algorithm { Name = "Задача коммивояжера"});
+                    db.Algorithms.Add(new Algorithm { Name = "Задача двумерной упаковки" });
+                    db.Algorithms.Add(new Algorithm { Name = "Задача о клике" });
+                }
+
+                db.SaveChanges();
+            }
         }
     }
 }
