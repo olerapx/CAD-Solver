@@ -68,7 +68,7 @@ namespace CAD_Solver.Migrations
                     Date = table.Column<DateTime>(nullable: false),
                     InputData = table.Column<string>(nullable: false),
                     Result = table.Column<string>(nullable: true),
-                    UserID = table.Column<Guid>(nullable: false)
+                    UserID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,7 +84,7 @@ namespace CAD_Solver.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

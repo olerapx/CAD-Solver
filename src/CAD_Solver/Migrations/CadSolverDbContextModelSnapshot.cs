@@ -43,7 +43,7 @@ namespace CAD_Solver.Migrations
 
                     b.Property<string>("Result");
 
-                    b.Property<Guid>("UserID");
+                    b.Property<Guid?>("UserID");
 
                     b.HasKey("AlgorithmUsageRecordID");
 
@@ -109,8 +109,7 @@ namespace CAD_Solver.Migrations
 
                     b.HasOne("CAD_Solver.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("CAD_Solver.Models.User", b =>

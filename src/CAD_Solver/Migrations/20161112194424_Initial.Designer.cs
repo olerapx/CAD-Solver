@@ -8,7 +8,7 @@ using CAD_Solver.Models;
 namespace CAD_Solver.Migrations
 {
     [DbContext(typeof(CadSolverDbContext))]
-    [Migration("20161111131350_Initial")]
+    [Migration("20161112194424_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,7 @@ namespace CAD_Solver.Migrations
 
                     b.Property<string>("Result");
 
-                    b.Property<Guid>("UserID");
+                    b.Property<Guid?>("UserID");
 
                     b.HasKey("AlgorithmUsageRecordID");
 
@@ -110,8 +110,7 @@ namespace CAD_Solver.Migrations
 
                     b.HasOne("CAD_Solver.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("CAD_Solver.Models.User", b =>
