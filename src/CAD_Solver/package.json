@@ -40,6 +40,8 @@
     "dependencies": {
         "chart.js": "^2.3.0",
         "bootstrap": "^3.3.7",
-        "jquery": "^3.1.1"
+        "bootstrap-datepicker": "^1.6.4",
+        "jquery": "^3.1.1",
+        "jquery-ajax-unobtrusive": "^3.2.4"
     }
 }

@@ -29,8 +29,10 @@ paths.views = "./Views";
 
 paths.libsSrc = {
     "jquery": '/jquery/**/*.{js,map}',
-    "bootstrap": '/bootstrap/**/*.{js,map,ttf,svg,woff,eot}', /* return .css here when themes are not needed */
-    "chart.js": '/chart.js/**/*.{js,map}'
+    "bootstrap": '/bootstrap/**/*.{js,map,ttf,svg,woff,woff2,eot}', /* return .css here when themes are not needed */
+    "chart.js": '/chart.js/**/*.{js,map}',
+    "jquery-ajax-unobtrusive": '/jquery-ajax-unobtrusive/**/*.js',
+    "bootstrap-datepicker": '/bootstrap-datepicker/**/*.{js,css}'
 };
 paths.bootstrapThemeSrc = paths.src + '/bootstrap_theme/**/*';
 

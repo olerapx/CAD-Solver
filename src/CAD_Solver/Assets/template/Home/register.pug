@@ -1,0 +1,61 @@
+| @using CAD_Solver.Models
+| @model User
+| @section Scripts { 
+|	<environment names="Development">
+|		<script defer src="~/js/register.js"></script>
+|	</environment>
+|	<environment names="Staging, Production">
+|		<script defer src="~/js/register.min.js"></script>
+|	</environment>
+| }
+
+environment(names="Development")
+	link(href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css", rel="stylesheet")
+
+environment(names="Staging, Production")
+	link(href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css", rel="stylesheet")
+
+div.container
+	bgimage(src="")
+	div.row.text-center
+			div.col-lg-12
+				h1.display-1.text-center.page-title.text-primary Регистрация пользователя
+				br
+	div.row
+		div.col-lg-6.col-lg-offset-3
+			form(role="form" asp-antiforgery="true" asp-controller="Home" asp-action="Register")
+				div.form-group
+					label(asp-for="FirstName")
+					input.form-control(type="text" asp-for="FirstName" placeholder="Введите имя")
+				div.form-group
+					label(asp-for="LastName")
+					input.form-control(type="text" asp-for="LastName" placeholder="Введите фамилию")
+				div.form-group
+					label(asp-for="GenderID")
+					| @foreach (var item in @ViewBag.Genders)
+					| {
+					|	<div class="radio">
+					|		<label>
+					|			@if(@item.GenderID == 1) {
+					|				<input type="radio" asp-for="GenderID" value="@item.GenderID" checked/> @item.Name
+					|			}
+					|			else {
+					| 				<input type="radio" asp-for="GenderID" value="@item.GenderID"/> @item.Name
+					|			}
+					|		</label>
+					|	</div>
+					| }
+				div.form-group
+					label(asp-for="BirthDate")
+					div.input-group.date#birthdate
+						input.form-control(type="date" asp-for="BirthDate")
+						span.input-group-addon
+							span.glyphicon.glyphicon-calendar
+				div.form-group
+					label(asp-for="Email")
+					input.form-control(type="email" asp-for="Email" placeholder="Введите адрес")
+				div.form-group
+					label(asp-for="PasswordHash")
+					input.form-control(type="password" asp-for="PasswordHash" placeholder="Введите пароль")
+				div.form-group
+					input(type="submit" class="btn btn-success" value="Зарегистрироваться")
