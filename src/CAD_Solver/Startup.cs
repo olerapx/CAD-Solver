@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using CAD_Solver.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CAD_Solver
 {
@@ -58,7 +59,7 @@ namespace CAD_Solver
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                app.UseBrowserLink(); 
             }
             else
             {

@@ -1,19 +1,23 @@
-| @using CAD_Solver.Models
-| @model User
+| @using CAD_Solver.ViewModels
+| @model UserViewModel
 | @section Scripts { 
 |	<environment names="Development">
+|		<script src="~/lib/jquery-validation/jquery.validate.js"></script>
+|		<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 |		<script defer src="~/js/register.js"></script>
 |	</environment>
 |	<environment names="Staging, Production">
+|		<script src="~/lib/jquery-validation/jquery.validate.js"></script>
+|		<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 |		<script defer src="~/js/register.min.js"></script>
 |	</environment>
 | }
 
 environment(names="Development")
-	link(href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css", rel="stylesheet")
+	link(href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.css", rel="stylesheet")
 
 environment(names="Staging, Production")
-	link(href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css", rel="stylesheet")
+	link(href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker3.min.css", rel="stylesheet")
 
 div.container
 	bgimage(src="")
@@ -25,37 +29,48 @@ div.container
 		div.col-lg-6.col-lg-offset-3
 			form(role="form" asp-antiforgery="true" asp-controller="Home" asp-action="Register")
 				div.form-group
-					label(asp-for="FirstName")
+					label.control-label(asp-for="FirstName")
 					input.form-control(type="text" asp-for="FirstName" placeholder="Введите имя")
 				div.form-group
-					label(asp-for="LastName")
+					label.control-label(asp-for="LastName")
 					input.form-control(type="text" asp-for="LastName" placeholder="Введите фамилию")
-				div.form-group
-					label(asp-for="GenderID")
-					| @foreach (var item in @ViewBag.Genders)
+				div.form-group.required
+					label.control-label(asp-for="GenderID")
+					| @foreach (var item in @Model.Genders)
 					| {
 					|	<div class="radio">
 					|		<label>
 					|			@if(@item.GenderID == 1) {
-					|				<input type="radio" asp-for="GenderID" value="@item.GenderID" checked/> @item.Name
+					|				<input type="radio" asp-for="GenderID" value="@item.GenderID" checked required/> @item.Name
 					|			}
 					|			else {
-					| 				<input type="radio" asp-for="GenderID" value="@item.GenderID"/> @item.Name
+					| 				<input type="radio" asp-for="GenderID" value="@item.GenderID" required/> @item.Name
 					|			}
 					|		</label>
 					|	</div>
 					| }
-				div.form-group
-					label(asp-for="BirthDate")
+				div.form-group(bootstrap-validation-for="BirthDate" bootstrap-validationerror-class="has-error")
+					label.control-label(asp-for="BirthDate")
 					div.input-group.date#birthdate
-						input.form-control(type="date" asp-for="BirthDate")
+						input.form-control(type="text" asp-for="BirthDate")
 						span.input-group-addon
 							span.glyphicon.glyphicon-calendar
-				div.form-group
-					label(asp-for="Email")
-					input.form-control(type="email" asp-for="Email" placeholder="Введите адрес")
-				div.form-group
-					label(asp-for="PasswordHash")
-					input.form-control(type="password" asp-for="PasswordHash" placeholder="Введите пароль")
+					span(asp-validation-for="BirthDate")
+				div.form-group.required(bootstrap-validation-for="Email" bootstrap-validationerror-class="has-error")
+					label.control-label(asp-for="Email")
+					input.form-control(type="email" asp-for="Email" placeholder="Введите адрес" required)
+					span(asp-validation-for="Email")
+				div.form-group.required(bootstrap-validation-for="Password" bootstrap-validationerror-class="has-error")
+					label.control-label(asp-for="Password")
+					input.form-control(type="password" asp-for="Password" placeholder="Введите пароль" required)
+					span(asp-validation-for="Password")
+				div.form-group.required(bootstrap-validation-for="PasswordConfirmation" bootstrap-validationerror-class="has-error")
+					label.control-label(asp-for="PasswordConfirmation")
+					input.form-control(type="password" asp-for="PasswordConfirmation" placeholder="Подтвердите пароль" required)
+					span(asp-validation-for="PasswordConfirmation")
+				br
 				div.form-group
 					input(type="submit" class="btn btn-success" value="Зарегистрироваться")
+	div.row
+		div.col-lg-6.col-lg-offset-3
+			span.required-annotation  &mdash; обязательно для заполнения

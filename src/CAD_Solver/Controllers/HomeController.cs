@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using CAD_Solver.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using CAD_Solver.ViewModels;
 
 namespace CAD_Solver.Controllers
 {
@@ -55,16 +56,20 @@ namespace CAD_Solver.Controllers
         [Route("register")]
         public IActionResult Register()
         {
-            IEnumerable<Gender> genders = Db.Genders;
-            ViewBag.Genders = genders;
-            return View();
+            UserViewModel uvm = new UserViewModel();
+            uvm.Genders = Db.Genders;
+            return View(uvm);
         }
 
         [HttpPost]
         [Route("register")]
-        public void Register(User user)
+        [ValidateAntiForgeryToken]
+        public void Register(UserViewModel uvm)
         {
-            
+            if (ModelState.IsValid)
+            {
+
+            }
         }
 
         public IActionResult Error()

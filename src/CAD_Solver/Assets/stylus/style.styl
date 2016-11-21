@@ -156,3 +156,16 @@ th, td
 
 .input-matrix
 	overflow-x auto
+	
+.required-red-asterisk
+	content "*"
+	color red
+	font-size 1.3em	
+
+.form-group.required .control-label:before
+	@extend .required-red-asterisk
+	position absolute
+	margin-left -12px
+
+.required-annotation:before
+	@extend .required-red-asterisk

@@ -1,3 +1,14 @@
+| @section Scripts { 
+|	<environment names="Development">
+|		<script defer src="~/lib/chart.js/Chart.bundle.js"></script>
+|		<script defer src="~/js/stats-handler.js"></script>
+|	</environment>
+|	<environment names="Staging, Production">
+|		<script defer src="~/lib/chart.js/Chart.bundle.min.js"></script>
+|		<script defer src="~/js/stats-handler.min.js"></script>
+|	</environment>
+| }
+
 div.container
 	bgimage(src="")
 	div.row.text-center
@@ -34,10 +45,3 @@ div.container
 	div.row
 		div.col-lg-8.col-lg-offset-2
 			canvas#visitorsChart
-
-	environment(names="Development")
-		script(defer src="~/lib/chart.js/dist/Chart.bundle.js")
-		script(defer src="~/js/stats-handler.js")
-	environment(names="Staging, Production")
-		script(defer src="~/lib/chart.js/dist/Chart.bundle.min.js")
-		script(defer src="~/js/stats-handler.min.js")

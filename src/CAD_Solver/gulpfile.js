@@ -28,11 +28,13 @@ paths.libsSrcDir = './node_modules';
 paths.views = "./Views";
 
 paths.libsSrc = {
-    "jquery": '/jquery/**/*.{js,map}',
-    "bootstrap": '/bootstrap/**/*.{js,map,ttf,svg,woff,woff2,eot}', /* return .css here when themes are not needed */
-    "chart.js": '/chart.js/**/*.{js,map}',
+    "jquery": '/jquery/dist/**/*.{js,map}',
+    "bootstrap": '/bootstrap/dist/**/*.{js,map,ttf,svg,woff,woff2,eot}', /* return .css here when themes are not needed */
+    "chart.js": '/chart.js/dist/**/*.{js,map}',
     "jquery-ajax-unobtrusive": '/jquery-ajax-unobtrusive/**/*.js',
-    "bootstrap-datepicker": '/bootstrap-datepicker/**/*.{js,css}'
+    "bootstrap-datepicker": '/bootstrap-datepicker/dist/**/*.{js,css}',
+    "jquery-validation": '/jquery-validation/dist/**/*.js',
+    "jquery-validation-unobtrusive": '/jquery-validation-unobtrusive/**/*.js'
 };
 paths.bootstrapThemeSrc = paths.src + '/bootstrap_theme/**/*';
 
@@ -42,7 +44,7 @@ paths.cssDest = paths.webroot + '/css';
 paths.htmlDest = paths.views;
 
 paths.libsDest = paths.webroot + '/lib';
-paths.bootstrapThemeDest = paths.libsDest + '/bootstrap/dist/css';
+paths.bootstrapThemeDest = paths.libsDest + '/bootstrap/css';
 
 
 gulp.task('img', () => {

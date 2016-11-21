@@ -8,11 +8,11 @@ html(lang="ru")
 		title CAD Solver
 
 		environment(names="Development")
-			link(rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css")
+			link(rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css")
 			link(href="~/css/style.css", rel="stylesheet")
 
 		environment(names="Staging, Production")
-			link(rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css")
+			link(rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css")
 			link(href="~/css/style.min.css", rel="stylesheet")
 
 	body.container-fluid(runat="server")
@@ -38,9 +38,8 @@ html(lang="ru")
 								a Клика
 					menulink(asp-controller="Home" asp-action="About" menu-text="О нас")
 				ul.nav.navbar-nav.navbar-right
-					li#li-signup
-						a(href="#") Регистрация
-					li#li-login
+					menulink(asp-controller="Home" asp-action="Register" menu-text="Регистрация")
+					li
 						a(href="#", data-toggle="modal", data-target="#loginModal") Вход
 					li.dropdown-hidden#li-username
 						a.dropdown-toggle.hidden#a-username(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false")
@@ -75,13 +74,13 @@ html(lang="ru")
 							button.btn.btn-default(type="button", data-dismiss="modal") Отмена
 
 		environment(names="Development")
-			script(src="~/lib/jquery/dist/jquery.js")
+			script(src="~/lib/jquery/jquery.js")
 			script(src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js")
-			script(src="~/lib/bootstrap/dist/js/bootstrap.js")
-			script(src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js")
+			script(src="~/lib/bootstrap/js/bootstrap.js")
+			script(src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.js")
 		environment(names="Staging, Production")
-			script(src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js" asp-fallback-test!="window.jQuery")
-			script(src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-fallback-test!="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal")
+			script(src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" asp-fallback-src="~/lib/jquery/jquery.min.js" asp-fallback-test!="window.jQuery")
+			script(src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/js/bootstrap.min.js" asp-fallback-test!="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal")
 			script(src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js")
-			script(src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")
+			script(src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
 		| @RenderSection("Scripts", required: false)

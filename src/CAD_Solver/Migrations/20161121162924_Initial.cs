@@ -43,9 +43,9 @@ namespace CAD_Solver.Migrations
                     BirthDate = table.Column<DateTime>(nullable: true),
                     Email = table.Column<string>(nullable: false),
                     EmailConfirmed = table.Column<bool>(nullable: false),
-                    FirstName = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
                     GenderID = table.Column<int>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
