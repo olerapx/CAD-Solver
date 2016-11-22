@@ -69,7 +69,7 @@ namespace CAD_Solver
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
-            app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
+            app.UseStatusCodePagesWithReExecute("/Home/HttpError/{0}");
 
             app.UseMvc(routes =>
             {

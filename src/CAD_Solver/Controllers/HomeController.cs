@@ -76,5 +76,11 @@ namespace CAD_Solver.Controllers
         {
             return View();
         }
+
+        public IActionResult HttpError(int id)
+        {
+            ViewBag.Status = id;
+            return View();
+        }
     }
 }
