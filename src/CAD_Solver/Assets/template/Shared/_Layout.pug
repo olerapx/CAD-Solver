@@ -65,11 +65,15 @@ html(lang="ru")
 					div.modal-body
 						form(role="form")
 							div.form-group
-								label(for="email") Email
-								input.form-control#login-email(type="email", placeholder="Введите email")
+								div.input-group
+									span.input-group-addon
+										span.glyphicon.glyphicon-envelope
+									input.form-control#login-email(type="email", placeholder="Введите адрес")
 							div.form-group
-								label(for="pass") Пароль
-								input.form-control#login-pass(type="password", placeholder="Пароль")
+								div.input-group
+									span.input-group-addon
+										span.glyphicon.glyphicon-lock
+									input.form-control#login-pass(type="password", placeholder="Введите пароль")
 							button.btn.btn-success#login-submit(type="submit") Войти
 							button.btn.btn-default(type="button", data-dismiss="modal") Отмена
 

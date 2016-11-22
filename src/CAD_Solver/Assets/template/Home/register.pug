@@ -1,16 +1,14 @@
 | @using CAD_Solver.ViewModels
 | @model UserViewModel
 | @section Scripts { 
-|	<environment names="Development">
-|		<script src="~/lib/jquery-validation/jquery.validate.js"></script>
-|		<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-|		<script defer src="~/js/register.js"></script>
-|	</environment>
-|	<environment names="Staging, Production">
-|		<script src="~/lib/jquery-validation/jquery.validate.js"></script>
-|		<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-|		<script defer src="~/js/register.min.js"></script>
-|	</environment>
+environment(names="Development")
+	script(src="~/lib/jquery-validation/jquery.validate.js")
+	script(src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")
+	script(defer src="~/js/register.js")
+environment(names="Staging, Production")
+	script(src="~/lib/jquery-validation/jquery.validate.js")
+	script(src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")
+	script(defer src="~/js/register.min.js")
 | }
 
 environment(names="Development")
@@ -27,13 +25,15 @@ div.container
 				br
 	div.row
 		div.col-lg-6.col-lg-offset-3
-			form(role="form" asp-antiforgery="true" asp-controller="Home" asp-action="Register")
+			form.form-registration(role="form" asp-antiforgery="true" asp-controller="Home" asp-action="Register")
 				div.form-group
 					label.control-label(asp-for="FirstName")
 					input.form-control(type="text" asp-for="FirstName" placeholder="Введите имя")
+
 				div.form-group
 					label.control-label(asp-for="LastName")
 					input.form-control(type="text" asp-for="LastName" placeholder="Введите фамилию")
+
 				div.form-group.required
 					label.control-label(asp-for="GenderID")
 					| @foreach (var item in @Model.Genders)
@@ -52,25 +52,34 @@ div.container
 				div.form-group(bootstrap-validation-for="BirthDate" bootstrap-validationerror-class="has-error")
 					label.control-label(asp-for="BirthDate")
 					div.input-group.date#birthdate
-						input.form-control(type="text" asp-for="BirthDate")
 						span.input-group-addon
 							span.glyphicon.glyphicon-calendar
+						input.form-control(type="text" asp-for="BirthDate" placeholder="Введите дату рождения")
 					span(asp-validation-for="BirthDate")
+
 				div.form-group.required(bootstrap-validation-for="Email" bootstrap-validationerror-class="has-error")
 					label.control-label(asp-for="Email")
 					input.form-control(type="email" asp-for="Email" placeholder="Введите адрес" required)
 					span(asp-validation-for="Email")
+
 				div.form-group.required(bootstrap-validation-for="Password" bootstrap-validationerror-class="has-error")
 					label.control-label(asp-for="Password")
 					input.form-control(type="password" asp-for="Password" placeholder="Введите пароль" required)
 					span(asp-validation-for="Password")
+
 				div.form-group.required(bootstrap-validation-for="PasswordConfirmation" bootstrap-validationerror-class="has-error")
 					label.control-label(asp-for="PasswordConfirmation")
 					input.form-control(type="password" asp-for="PasswordConfirmation" placeholder="Подтвердите пароль" required)
 					span(asp-validation-for="PasswordConfirmation")
 				br
+
 				div.form-group
 					input(type="submit" class="btn btn-success" value="Зарегистрироваться")
+
 	div.row
 		div.col-lg-6.col-lg-offset-3
 			span.required-annotation  &mdash; обязательно для заполнения
+	br
+	div.row
+		div.col-lg-6.col-lg-offset-3
+			p Уже есть аккаунт? #[a(href="#" data-toggle="modal" data-target="#loginModal") Войти]

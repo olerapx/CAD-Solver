@@ -6,6 +6,7 @@ $(function() {
 			month:1,
 			day:1
 		},
-		format:"dd.mm.yyyy"
+		format:"dd.mm.yyyy",
+		autoclose: true
 	});
 });
