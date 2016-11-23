@@ -7,7 +7,7 @@ namespace CAD_Solver.Models
     {
         public Guid AlgorithmUsageRecordID { get; set; }
 
-        public Guid? UserID { get; set; }
+        public string UserId { get; set; }
         public int AlgorithmID { get; set; }
 
         [Required]

@@ -32,7 +32,7 @@ namespace CAD_Solver.ViewModels
 
         [RegularExpression(@"(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d", ErrorMessage = "Некорректная дата")]
         [Display(Name = "Дата рождения")]
-        public DateTime? BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
         public IEnumerable<Gender> Genders { get; set; }
     }

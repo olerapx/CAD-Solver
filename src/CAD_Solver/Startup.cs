@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using CAD_Solver.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CAD_Solver
 {
@@ -42,6 +43,17 @@ namespace CAD_Solver
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CadSolverDbContext>(options => options.UseSqlServer(connection));
 
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 5;
+            })
+             .AddEntityFrameworkStores<CadSolverDbContext>()
+             .AddDefaultTokenProviders();
+
             services.AddMvc();
 
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
@@ -68,6 +80,7 @@ namespace CAD_Solver
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
+            app.UseIdentity();
             app.UseStatusCodePagesWithReExecute("/Home/HttpError/{0}");
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions

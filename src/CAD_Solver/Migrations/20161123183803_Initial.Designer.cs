@@ -8,9 +8,10 @@ using CAD_Solver.Models;
 namespace CAD_Solver.Migrations
 {
     [DbContext(typeof(CadSolverDbContext))]
-    partial class CadSolverDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161123183803_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
