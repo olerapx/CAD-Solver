@@ -8,7 +8,7 @@ using CAD_Solver.Models;
 namespace CAD_Solver.Migrations
 {
     [DbContext(typeof(CadSolverDbContext))]
-    [Migration("20161121162924_Initial")]
+    [Migration("20161123161618_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,6 +87,9 @@ namespace CAD_Solver.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired();
+
+                    b.Property<string>("Salt")
                         .IsRequired();
 
                     b.HasKey("UserID");

@@ -88,6 +88,9 @@ namespace CAD_Solver.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired();
 
+                    b.Property<string>("Salt")
+                        .IsRequired();
+
                     b.HasKey("UserID");
 
                     b.HasIndex("Email")

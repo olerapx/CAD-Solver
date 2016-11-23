@@ -10,3 +10,12 @@ $(function() {
 		autoclose: true
 	});
 });
+
+function registerQuerySuccess() {
+	$("#register-result-modal").modal();
+}
+
+function registerQueryFailed() {
+	$("#register-result-content").text("Произошла ошибка при отправке данных на сервер. Пожалуйста, повторите позднее.");
+	$("#register-result-modal").modal();
+}

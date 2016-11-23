@@ -25,7 +25,7 @@ div.container
 				br
 	div.row
 		div.col-lg-6.col-lg-offset-3
-			form(role="form" asp-antiforgery="true" asp-controller="Home" asp-action="Register")
+			form(role="form" asp-antiforgery="true" asp-controller="Home" asp-action="Register" data-ajax="true" data-ajax-method="POST" data-ajax-success="registerQuerySuccess" data-ajax-failure="registerQueryFailed" data-ajax-update="#register-result-content")
 				div.form-group
 					label.control-label(asp-for="FirstName")
 					input.form-control(type="text" asp-for="FirstName" placeholder="Введите имя")
@@ -83,3 +83,17 @@ div.container
 	div.row
 		div.col-lg-6.col-lg-offset-3
 			p Уже есть аккаунт? #[a(href="#" data-toggle="modal" data-target="#loginModal") Войти]
+
+div#register-result-modal.modal.fade
+	div.modal-dialog
+		div.modal-content
+			div.modal-header
+				button.close(type="button", data-dismiss="modal") ×
+				h4.modal-title Вход
+			div.modal-body
+				row
+					col-lg-12
+						p#register-result-content
+				row
+					col-lg-12
+						button.btn.btn-default(type="button" data-dismiss="modal") Закрыть

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using CAD_Solver.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CAD_Solver
 {
@@ -28,6 +25,7 @@ namespace CAD_Solver
             {
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
+                builder.AddUserSecrets();
             }
             Configuration = builder.Build();
         }
@@ -37,6 +35,7 @@ namespace CAD_Solver
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppKeyConfig>(Configuration.GetSection("AppKeys"));
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
@@ -70,6 +69,14 @@ namespace CAD_Solver
 
             app.UseStaticFiles();
             app.UseStatusCodePagesWithReExecute("/Home/HttpError/{0}");
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Cookies",
+                LoginPath = new Microsoft.AspNetCore.Http.PathString("/register"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
 
             app.UseMvc(routes =>
             {

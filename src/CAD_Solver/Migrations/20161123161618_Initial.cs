@@ -46,7 +46,8 @@ namespace CAD_Solver.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     GenderID = table.Column<int>(nullable: false),
                     LastName = table.Column<string>(nullable: true),
-                    PasswordHash = table.Column<string>(nullable: false)
+                    PasswordHash = table.Column<string>(nullable: false),
+                    Salt = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

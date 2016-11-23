@@ -17,6 +17,9 @@ namespace CAD_Solver.Models
         public string PasswordHash { get; set; }
 
         [Required]
+        public string Salt { get; set; }
+
+        [Required]
         public int GenderID { get; set; }
 
         public string FirstName { get; set; }
