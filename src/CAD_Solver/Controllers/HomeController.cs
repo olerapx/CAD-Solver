@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using CAD_Solver.ViewModels;
 using CAD_Solver.Utils;
-using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -97,7 +95,8 @@ namespace CAD_Solver.Controllers
                 return Content("Пользователь с таким именем уже существует.");
             }
 
-            User user = new User { Email = uvm.Email,
+            User user = new User {
+                Email = uvm.Email,
                 UserName = uvm.Email,
                 GenderID = uvm.GenderID,
                 FirstName = uvm.FirstName,
@@ -117,7 +116,7 @@ namespace CAD_Solver.Controllers
             await emailService.SendEmailAsync(user.Email, "Подтверждение адреса", 
                                               $"Подтвердите регистрацию на сайте CAD Solver, пройдя по ссылке: <a href='{callbackUrl}'>Подтверждение регистарации</a>");
 
-            return Content("Регистрация почти завершена! Для подтверждения вашей почты пройдите по ссылке в письме, отправленном на указанный адрес.");
+            return Content("Регистрация почти завершена! Для подтверждения вашей почты пройдите по ссылке из письма, отправленном на указанный адрес.");
         }
 
         [Route("confirmation")]
