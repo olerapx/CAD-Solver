@@ -40,7 +40,7 @@ html(lang="ru")
 				ul.nav.navbar-nav.navbar-right
 					menulink(asp-controller="Home" asp-action="Register" menu-text="Регистрация")
 					li
-						a(href="#", data-toggle="modal", data-target="#loginModal") Вход
+						a(href="#" data-target="#login-modal" data-toggle="modal") Вход
 					li.dropdown-hidden#li-username
 						a.dropdown-toggle.hidden#a-username(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false")
 							span.caret
@@ -50,41 +50,26 @@ html(lang="ru")
 							li#li-logout
 								a Выход
 
-		div.container.container-index.
-			@RenderBody()
-
-		//-	
-			modals
-
-		div#loginModal.modal.fade
+		div.container.container-index
+			| @RenderBody()
+		div.modal.fade#login-modal
 			div.modal-dialog
-				div.modal-content
-					div.modal-header
-						button.close(type="button", data-dismiss="modal") ×
-						h4.modal-title Вход
-					div.modal-body
-						form(role="form")
-							div.form-group
-								div.input-group
-									span.input-group-addon
-										span.glyphicon.glyphicon-envelope
-									input.form-control#login-email(type="email", placeholder="Введите адрес")
-							div.form-group
-								div.input-group
-									span.input-group-addon
-										span.glyphicon.glyphicon-lock
-									input.form-control#login-pass(type="password", placeholder="Введите пароль")
-							button.btn.btn-success#login-submit(type="submit") Войти
-							button.btn.btn-default(type="button", data-dismiss="modal") Отмена
+				| @await Html.PartialAsync("Login", new CAD_Solver.ViewModels.LoginModel())
 
 		environment(names="Development")
 			script(src="~/lib/jquery/jquery.js")
 			script(src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js")
 			script(src="~/lib/bootstrap/js/bootstrap.js")
 			script(src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.js")
+			script(src="~/lib/jquery-validation/jquery.validate.js")
+			script(src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")
+			script(src="~/js/login.js")
 		environment(names="Staging, Production")
 			script(src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js" asp-fallback-src="~/lib/jquery/jquery.min.js" asp-fallback-test!="window.jQuery")
 			script(src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/js/bootstrap.min.js" asp-fallback-test!="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal")
 			script(src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js")
 			script(src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js")
+			script(src="~/lib/jquery-validation/jquery.validate.js")
+			script(src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")
+			script(src="~/js/login.js")
 		| @RenderSection("Scripts", required: false)

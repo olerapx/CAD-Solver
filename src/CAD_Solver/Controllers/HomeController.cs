@@ -50,12 +50,14 @@ namespace CAD_Solver.Controllers
             return View();
         }
 
+        [HttpGet]
         [Route("tdsp")]
         public IActionResult Tdsp()
         {
             return View();
         }
 
+        [HttpGet]
         [Route("otsp")]
         public IActionResult Otsp()
         {
@@ -73,15 +75,15 @@ namespace CAD_Solver.Controllers
         [Route("register")]
         public IActionResult Register()
         {
-            UserViewModel uvm = new UserViewModel();
-            uvm.Genders = Db.Genders;
-            return View(uvm);
+            RegistrationModel model = new RegistrationModel();
+            model.Genders = Db.Genders;
+            return View(model);
         }
 
         [HttpPost]
-        [Route("register")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(UserViewModel uvm)
+        [Route("register")]        
+        public async Task<IActionResult> Register(RegistrationModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -89,38 +91,38 @@ namespace CAD_Solver.Controllers
                 return Content("Введенные данные неверны. Пожалуйста, проверьте ввод.");
             }
 
-            if (Db.Users.Any(u => u.Email.Equals(uvm.Email)))
+            if (Db.Users.Any(u => u.Email.Equals(model.Email)))
             {
 
                 return Content("Пользователь с таким именем уже существует.");
             }
 
             User user = new User {
-                Email = uvm.Email,
-                UserName = uvm.Email,
-                GenderID = uvm.GenderID,
-                FirstName = uvm.FirstName,
-                LastName = uvm.LastName,
-                BirthDate = DateTime.ParseExact(uvm.BirthDate, "dd.mm.yyyy", System.Globalization.CultureInfo.InvariantCulture)
+                Email = model.Email,
+                UserName = model.Email,
+                GenderID = model.GenderID,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                BirthDate = (model.BirthDate == null) ? (DateTime?)null : DateTime.ParseExact(model.BirthDate, "dd.mm.yyyy", System.Globalization.CultureInfo.InvariantCulture)
             };
 
-            await userManager.CreateAsync(user, uvm.Password);
+            await userManager.CreateAsync(user, model.Password);
 
             var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.Action(
-                              "ConfirmEmail",
+                              "Confirmation",
                               "Home",
                                new { userId = user.Id, code = code },
                                protocol: HttpContext.Request.Scheme);
 
             await emailService.SendEmailAsync(user.Email, "Подтверждение адреса", 
-                                              $"Подтвердите регистрацию на сайте CAD Solver, пройдя по ссылке: <a href='{callbackUrl}'>Подтверждение регистарации</a>");
+                                              $"Подтвердите регистрацию на сайте CAD Solver, пройдя по ссылке: <a href='{callbackUrl}'>Подтверждение регистрации</a>");
 
             return Content("Регистрация почти завершена! Для подтверждения вашей почты пройдите по ссылке из письма, отправленном на указанный адрес.");
         }
 
         [Route("confirmation")]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        public async Task<IActionResult> Confirmation(string userId, string code)
         {
             if (userId == null || code == null)
                 return RedirectToAction("Error", "Home");
@@ -135,12 +137,35 @@ namespace CAD_Solver.Controllers
             if (!result.Succeeded)
                 return RedirectToAction("Error", "Home");
 
-            return RedirectToAction("Index", "Home");            
+            return View();          
         }
 
-        public async Task<IActionResult> Login()
+        [HttpGet]
+        [Route("login")]
+        public ActionResult Login()
         {
-            return null;
+            LoginModel model = new LoginModel();
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("login")]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { result = "error", error = "Введены некорректные данные" });
+            }
+
+            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, true, false); // add remember me
+
+            if (!result.Succeeded)
+            {
+                return Json(new { result = "error", error = "Неправильный логин и (или) пароль" });
+            }
+
+            return Json(new { result = "Redirect", returnUrl = "/" });
         }
 
         public async Task<IActionResult> Logout()

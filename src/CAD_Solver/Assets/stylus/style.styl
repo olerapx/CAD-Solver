@@ -175,3 +175,15 @@ th, td
 
 .field-validation-error
 	color red !important
+
+.glyphicon.spinning 
+	animation spin 1s infinite linear
+	margin-left 0.5em
+	font-size 1.2em
+
+@keyframes spin
+	from { transform: scale(1) rotate(0deg); }
+	to { transform:scale(1) rotate(360deg); }
+
+#login-error
+	color red

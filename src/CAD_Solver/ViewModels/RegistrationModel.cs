@@ -1,11 +1,10 @@
 ﻿using CAD_Solver.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CAD_Solver.ViewModels
 {
-    public class UserViewModel
+    public class RegistrationModel
     {
         [EmailAddress(ErrorMessage = "Некорректный адрес")]
         [Required(ErrorMessage = "Требуются данные")]

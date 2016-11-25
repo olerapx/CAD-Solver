@@ -19,3 +19,11 @@ function registerQueryFailed() {
 	$("#register-result-content").text("Произошла ошибка при отправке данных на сервер. Пожалуйста, повторите позднее.");
 	$("#register-result-modal").modal();
 }
+
+function registerQueryBegin() {
+	$("#register-processing").addClass("glyphicon-refresh spinning");
+}
+
+function registerQueryComplete() {
+	$("#register-processing").removeClass("glyphicon-refresh spinning");
+}

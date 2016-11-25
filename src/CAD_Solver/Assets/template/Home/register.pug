@@ -1,13 +1,9 @@
 | @using CAD_Solver.ViewModels
-| @model UserViewModel
+| @model RegistrationModel
 | @section Scripts { 
 environment(names="Development")
-	script(src="~/lib/jquery-validation/jquery.validate.js")
-	script(src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")
 	script(defer src="~/js/register.js")
 environment(names="Staging, Production")
-	script(src="~/lib/jquery-validation/jquery.validate.js")
-	script(src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")
 	script(defer src="~/js/register.min.js")
 | }
 
@@ -25,7 +21,7 @@ div.container
 				br
 	div.row
 		div.col-lg-6.col-lg-offset-3
-			form(role="form" asp-antiforgery="true" asp-controller="Home" asp-action="Register" data-ajax="true" data-ajax-method="POST" data-ajax-success="registerQuerySuccess" data-ajax-failure="registerQueryFailed" data-ajax-update="#register-result-content")
+			form(role="form" asp-antiforgery="true" asp-controller="Home" asp-action="Register" data-ajax="true" data-ajax-method="POST" data-ajax-begin="registerQueryBegin" data-ajax-success="registerQuerySuccess" data-ajax-failure="registerQueryFailed" data-ajax-update="#register-result-content" data-ajax-complete="registerQueryComplete")
 				div.form-group
 					label.control-label(asp-for="FirstName")
 					input.form-control(type="text" asp-for="FirstName" placeholder="Введите имя")
@@ -74,7 +70,8 @@ div.container
 				br
 
 				div.form-group
-					input(type="submit" class="btn btn-success" value="Зарегистрироваться")
+					button(type="submit" class="btn btn-success") Зарегистрироваться
+						span.glyphicon#register-processing
 
 	div.row
 		div.col-lg-6.col-lg-offset-3
@@ -82,7 +79,7 @@ div.container
 	br
 	div.row
 		div.col-lg-6.col-lg-offset-3
-			p Уже есть аккаунт? #[a(href="#" data-toggle="modal" data-target="#loginModal") Войти]
+			p Уже есть аккаунт? #[a(href="#" data-target="#login-modal" data-toggle="modal") Войти]
 
 div#register-result-modal.modal.fade
 	div.modal-dialog
