@@ -12,5 +12,9 @@ namespace CAD_Solver.ViewModels
         [StringLength(100, MinimumLength = 5, ErrorMessage = "Длина пароля должна быть не менее 5 символов")]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
+
+        [Required]
+        [Display(Name="Запомнить меня")]
+        public bool RememberMe { get; set; }
     }
 }

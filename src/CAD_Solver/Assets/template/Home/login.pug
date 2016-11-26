@@ -22,8 +22,18 @@ div.modal-content
 						span.glyphicon.glyphicon-lock
 					input.form-control(type="password" asp-for="Password" placeholder="Введите пароль" required)
 				span(asp-validation-for="Password")
+
+			div.checkbox
+				label.control-label(asp-for="RememberMe")
+					input(type="checkbox" asp-for="RememberMe")
+					| Запомнить меня
+
 			br
 			div.form-group
 				button.btn.btn-success#login-submit(type="submit") Войти
 					span.glyphicon#login-processing
 				button.btn.btn-default(type="button", data-dismiss="modal") Отмена
+
+			div.row
+				div.col-lg-12
+					a(asp-controller="Home" asp-action="Register") Регистрация

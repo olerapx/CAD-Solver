@@ -164,7 +164,7 @@ namespace CAD_Solver.Controllers
                 return Json(new { result = "error", error = "Данный аккаунт не подтвержден" });
             }
 
-            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, true, false); // add remember me
+            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
             if (!result.Succeeded)
             {
