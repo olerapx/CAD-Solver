@@ -54,7 +54,7 @@ html(lang="ru")
 			| @RenderBody()
 		div.modal.fade#login-modal
 			div.modal-dialog
-				| @await Html.PartialAsync("Login", new CAD_Solver.ViewModels.LoginModel())
+				| @await Html.PartialAsync("Login", new CAD_Solver.ViewModels.LoginViewModel())
 
 		environment(names="Development")
 			script(src="~/lib/jquery/jquery.js")

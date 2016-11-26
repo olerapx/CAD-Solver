@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CAD_Solver.ViewModels
 {
-    public class RegistrationModel
+    public class RegistrationViewModel
     {
         [EmailAddress(ErrorMessage = "Некорректный адрес")]
         [Required(ErrorMessage = "Требуются данные")]

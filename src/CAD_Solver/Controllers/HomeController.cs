@@ -75,7 +75,7 @@ namespace CAD_Solver.Controllers
         [Route("register")]
         public IActionResult Register()
         {
-            RegistrationModel model = new RegistrationModel();
+            RegistrationViewModel model = new RegistrationViewModel();
             model.Genders = Db.Genders;
             return View(model);
         }
@@ -83,7 +83,7 @@ namespace CAD_Solver.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("register")]        
-        public async Task<IActionResult> Register(RegistrationModel model)
+        public async Task<IActionResult> Register(RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -144,18 +144,24 @@ namespace CAD_Solver.Controllers
         [Route("login")]
         public ActionResult Login()
         {
-            LoginModel model = new LoginModel();
+            LoginViewModel model = new LoginViewModel();
             return PartialView(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return Json(new { result = "error", error = "Введены некорректные данные" });
+            }
+
+            User user = Db.Users.First(u => u.Email == model.Email);
+            if (user != null && !user.EmailConfirmed)
+            {
+                return Json(new { result = "error", error = "Данный аккаунт не подтвержден" });
             }
 
             var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, true, false); // add remember me
