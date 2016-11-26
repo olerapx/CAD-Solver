@@ -1,8 +1,15 @@
+| @model string
+
 div.container
 	bgimage(src="")
 	div.row.text-center
 			div.col-lg-12
 				h1.display-1.text-center.page-title.text-primary Подтверждение почты
 				br
-				p.lead Подтверждение прошло успешно. Добро пожаловать! 
+				| @if (@ViewBag.Succeeded) {
+				p.lead#confirmation-result Подтверждение прошло успешно. Добро пожаловать!
 				p.lead Теперь вы можете #[a(href="#" data-target="#login-modal" data-toggle="modal") войти в аккаунт]. 
+				| }
+				| else {
+				p.lead#confirmation-result Произошла ошибка. Пожалуйста, повторите позднее.
+				| }

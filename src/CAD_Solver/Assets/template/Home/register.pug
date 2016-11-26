@@ -34,16 +34,16 @@ div.container
 					label.control-label(asp-for="GenderID")
 					| @foreach (var item in @Model.Genders)
 					| {
-					|	<div class="radio">
-					|		<label>
-					|			@if(@item.GenderID == 1) {
-					|				<input type="radio" asp-for="GenderID" value="@item.GenderID" checked required/> @item.Name
-					|			}
-					|			else {
-					| 				<input type="radio" asp-for="GenderID" value="@item.GenderID" required/> @item.Name
-					|			}
-					|		</label>
-					|	</div>
+					div.radio
+						label
+							| @if(@item.GenderID == 1) {
+							input(type="radio" asp-for="GenderID" value="@item.GenderID" checked required)
+							| @item.Name
+							| }
+							| else {
+							input(type="radio" asp-for="GenderID" value="@item.GenderID" required)
+							| @item.Name
+							| }
 					| }
 				div.form-group(bootstrap-validation-for="BirthDate" bootstrap-validationerror-class="has-error")
 					label.control-label(asp-for="BirthDate")

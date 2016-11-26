@@ -85,6 +85,8 @@ namespace CAD_Solver.Controllers
         [Route("register")]        
         public async Task<IActionResult> Register(RegistrationViewModel model)
         {
+            await signInManager.SignOutAsync();
+
             if (!ModelState.IsValid)
             {
 
@@ -125,19 +127,23 @@ namespace CAD_Solver.Controllers
         public async Task<IActionResult> Confirmation(string userId, string code)
         {
             if (userId == null || code == null)
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Index", "Home");
 
             var user = await userManager.FindByIdAsync(userId);
 
             if (user == null)
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Index", "Home");
 
             var result = await userManager.ConfirmEmailAsync(user, code);
 
             if (!result.Succeeded)
-                return RedirectToAction("Error", "Home");
+            {
+                ViewBag.Succeeded = false;
+                return View();
+            }
 
-            return View();          
+            ViewBag.Succeeded = true;
+            return View();    
         }
 
         [HttpGet]
