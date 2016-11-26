@@ -38,18 +38,19 @@ html(lang="ru")
 								a Клика
 					menulink(asp-controller="Home" asp-action="About" menu-text="О нас")
 				ul.nav.navbar-nav.navbar-right
+					| @if(!@User.Identity.IsAuthenticated) {
 					menulink(asp-controller="Home" asp-action="Register" menu-text="Регистрация")
 					li
 						a(href="#" data-target="#login-modal" data-toggle="modal") Вход
-					li.dropdown-hidden#li-username
-						a.dropdown-toggle.hidden#a-username(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false")
+					| }
+					| else {
+					li.dropdown
+						a.dropdown-toggle(href="#", data-toggle="dropdown", role="button", aria-haspopup="true", aria-expanded="false") @User.Identity.Name
 							span.caret
 						ul.dropdown-menu
-							li#li-stat
-								a(asp-controller="Home" asp-action="Stats") Статистика
-							li#li-logout
-								a Выход
-
+							menulink(asp-controller="Home" asp-action="Stats" menu-text="Статистика")
+							menulink(asp-controller="Home" asp-action="Logout" menu-text="Выход")
+					| }
 		div.container.container-index
 			| @RenderBody()
 		div.modal.fade#login-modal
