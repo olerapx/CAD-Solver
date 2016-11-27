@@ -24,8 +24,6 @@ var table = new InputTable("div.input-matrix", tableOptions);
 table.extendTableWithDefaultName(0);
 table.extendTableWithDefaultName(1);
 
-var s = new sigma();
-
 $("#btn-solve").on('click', function () {
 
 	$("#algo-processing").addClass("glyphicon-refresh spinning");
@@ -57,10 +55,13 @@ $("#btn-solve").on('click', function () {
 				},
 				settings: {
 					edgeLabelSize: 'proportional',
+					labelThreshold: 1,
 					minNodeSize: 5,
 					maxNodeSize: 5
 				}
 			});
+
+			let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 		},
 
 		error: function() {
