@@ -1,3 +1,16 @@
+| @section Scripts {
+environment(names="Development")
+	script(src="~/js/input-table.js")
+	script(src="~/lib/sigma/sigma.min.js")
+	script(src="~/lib/sigma/plugins/sigma.renderers.edgeLabels.min.js")
+	script(defer src="~/js/tdsp-handler.js")
+environment(names="Staging, Production")
+	script(src="~/js/input-table.min.js")
+	script(src="~/lib/sigma/sigma.min.js")
+	script(src="~/lib/sigma/plugins/sigma.renderers.edgeLabels.min.js")
+	script(defer src="~/js/tdsp-handler.min.js")
+| }
+
 div.container
 	bgimage(src="")
 	div.row.text-center
@@ -8,6 +21,7 @@ div.container
 		div.panel-heading
 			h4.panel-title
 				a(data-toggle="collapse", href="#el1") Теория
+
 		div.panel-collapse.collapse#el1
 			div.panel-body
 				div.row
@@ -41,9 +55,3 @@ div.container
 				div.row
 					div.col-lg-12 
 						p#result
-environment(names="Development")
-	script(defer src="js/input-table.js")
-	script(defer src="js/pack-table-handler.js")
-environment(names="Staging, Production")
-	script(defer src="js/input-table.min.js")
-	script(defer src="js/pack-table-handler.min.js")

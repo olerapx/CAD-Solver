@@ -32,4 +32,28 @@ $("#btn-solve").on('click', function () {
 
 	$("html, body").animate({ scrollTop: $(document).height() }, 'swing');
 	$('#result').text(table.toJSON());
+
+
+	var g =  {
+		nodes: [
+			{ id:1, label:"A1", size: 0.5, x: Math.random(), y: Math.random() },
+			{ id:2, label:"A2", size : 0.5, x: Math.random(), y: Math.random() },
+		],
+		edges: [
+			{ id : 10, source : 1, target : 2, label: "10", color: "#FF0000" }
+		]
+	};
+
+	s = new sigma({
+		graph: g,
+		renderer: {
+			container: 'result-graph',
+			type: "canvas"
+		},
+		settings: {
+			edgeLabelSize: 'proportional',
+			minNodeSize: 5,
+			maxNodeSize: 5
+		}
+	});
 });

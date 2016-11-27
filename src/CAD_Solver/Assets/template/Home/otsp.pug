@@ -1,3 +1,16 @@
+| @section Scripts {
+environment(names="Development")
+	script(src="~/js/input-table.js")
+	script(src="~/lib/sigma/sigma.min.js")
+	script(src="~/lib/sigma/plugins/sigma.renderers.edgeLabels.min.js")
+	script(defer src="~/js/otsp-handler.js")
+environment(names="Staging, Production")
+	script(src="~/js/input-table.min.js")
+	script(src="~/lib/sigma/sigma.min.js")
+	script(src="~/lib/sigma/plugins/sigma.renderers.edgeLabels.min.js")
+	script(defer src="~/js/otsp-handler.min.js")
+| }
+
 div.container
 	bgimage(src="")
 	div.row.text-center
@@ -40,5 +53,5 @@ div.container
 				div.row
 					div.col-lg-12 
 						p#result
-script(defer src="js/input-table.js")
-script(defer src="js/input-table-handler.js")
+						div#graph-container
+							div#result-graph
