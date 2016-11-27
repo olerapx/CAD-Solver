@@ -24,36 +24,51 @@ var table = new InputTable("div.input-matrix", tableOptions);
 table.extendTableWithDefaultName(0);
 table.extendTableWithDefaultName(1);
 
+var s = new sigma();
+
 $("#btn-solve").on('click', function () {
 
-	$('#div-result').removeClass("hidden");
-	$('#el1').collapse("hide");
-	$('#el3').collapse("show");
+	$("#algo-processing").addClass("glyphicon-refresh spinning");
+	$("#result-graph").empty();
 
-	$("html, body").animate({ scrollTop: $(document).height() }, 'swing');
-	$('#result').text(table.toJSON());
+	alert(table.toJSON());
 
+	$.ajax({
+		url: '/otsp',
+		type: 'POST',
+		data: table.toJSON(),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'html',
 
-	var g =  {
-		nodes: [
-			{ id:1, label:"A1", size: 0.5, x: Math.random(), y: Math.random() },
-			{ id:2, label:"A2", size : 0.5, x: Math.random(), y: Math.random() },
-		],
-		edges: [
-			{ id : 10, source : 1, target : 2, label: "10", color: "#FF0000" }
-		]
-	};
+		success: function (data) {
+			$('#div-result').removeClass("hidden");
+			$('#el1').collapse("hide");
+			$('#el3').collapse("show");	
 
-	s = new sigma({
-		graph: g,
-		renderer: {
-			container: 'result-graph',
-			type: "canvas"
+			$("html, body").animate({ scrollTop: $(document).height() }, 'swing');
+
+			let g =  $.parseJSON(data);
+
+			let s = new sigma({
+				graph: g,
+				renderer: {
+					container: 'result-graph',
+					type: "canvas"
+				},
+				settings: {
+					edgeLabelSize: 'proportional',
+					minNodeSize: 5,
+					maxNodeSize: 5
+				}
+			});
 		},
-		settings: {
-			edgeLabelSize: 'proportional',
-			minNodeSize: 5,
-			maxNodeSize: 5
+
+		error: function() {
+			alert("no");
+		},
+
+		complete: function() {
+			$("#algo-processing").removeClass("glyphicon-refresh spinning");
 		}
 	});
 });

@@ -10,6 +10,7 @@ using CAD_Solver.Utils;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Linq;
 
 namespace CAD_Solver.Controllers
 {
@@ -60,6 +61,32 @@ namespace CAD_Solver.Controllers
         [HttpGet]
         [Route("otsp")]
         public IActionResult Otsp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("otsp")]
+        public IActionResult Otsp([FromBody] dynamic data)
+        {
+            JArray array = (JArray)data;
+
+            Random r = new Random();
+            return Json(
+                new {
+                        nodes = new[] {
+                            new { id="n1", label="A1", size=0.5, x= r.NextDouble(), y = r.NextDouble() },
+                            new { id="n2", label="A2", size=0.5, x= r.NextDouble(), y = r.NextDouble() }
+                        },
+                        edges = new[] {
+                            new { id="e1", source="n1", target="n2", label="10", color="#FF0000" }
+                        }
+                   });
+        }
+
+        [HttpGet]
+        [Route("clique")]
+        public IActionResult Clique()
         {
             return View();
         }

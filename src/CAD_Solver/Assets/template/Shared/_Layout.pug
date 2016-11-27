@@ -34,8 +34,7 @@ html(lang="ru")
 						ul.dropdown-menu
 							menulink(asp-controller="Home" asp-action="Otsp" menu-text="Коммивояжер")
 							menulink(asp-controller="Home" asp-action="Tdsp" menu-text="Упаковка")
-							li
-								a Клика
+							menulink(asp-controller="Home" asp-action="Clique" menu-text="Клика")
 					menulink(asp-controller="Home" asp-action="About" menu-text="О нас")
 				ul.nav.navbar-nav.navbar-right
 					| @if(!@User.Identity.IsAuthenticated) {
