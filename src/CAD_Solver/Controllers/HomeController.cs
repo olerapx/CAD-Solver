@@ -54,13 +54,6 @@ namespace CAD_Solver.Controllers
         }
 
         [HttpGet]
-        [Route("tdsp")]
-        public IActionResult Tdsp()
-        {
-            return View();
-        }
-
-        [HttpGet]
         [Route("otsp")]
         public IActionResult Otsp()
         {
@@ -115,8 +108,27 @@ namespace CAD_Solver.Controllers
                 }
             }
            
-            return Json(resGraph);
-                
+            return Json(resGraph);                
+        }
+
+        [HttpGet]
+        [Route("tdsp")]
+        public IActionResult Tdsp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("tdsp")]
+        public IActionResult Ttsp([FromBody] dynamic data)
+        {
+            JArray table = (data as JObject).Value<JArray>("table");
+            int width = int.Parse((data as JObject).Value<string>("width"));
+
+            return Json (new[] {
+                new { x = 0, y = 0, width = 100, height = 50, fill = "green", stroke = "black", strokeWidth = 1 },
+                new { x = 100, y = 100, width = 70, height = 20, fill = "yellow", stroke = "black", strokeWidth = 1 }
+            });
         }
 
         [HttpGet]

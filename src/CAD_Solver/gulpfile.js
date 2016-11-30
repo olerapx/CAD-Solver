@@ -35,7 +35,8 @@ paths.libsSrc = {
     "bootstrap-datepicker": '/bootstrap-datepicker/dist/**/*.{js,css}',
     "jquery-validation": '/jquery-validation/dist/**/*.js',
     "jquery-validation-unobtrusive": '/jquery-validation-unobtrusive/**/*.js',
-    "sigma": '/sigma/build/**/*.js'
+    "sigma": '/sigma/build/**/*.js',
+    "konva": '/konva/*.js'
 };
 paths.bootstrapThemeSrc = paths.src + '/bootstrap_theme/**/*';
 

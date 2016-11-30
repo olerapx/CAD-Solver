@@ -27,7 +27,62 @@ table.extendTableWithDefaultName(1);
 
 $("#btn-solve").on('click', function () {
 
-	$('#div-result').removeClass("hidden");
-	$('#el3').collapse("show");
-	$('#result').text(table.toJSON());
+	$("#algo-processing").addClass("glyphicon-refresh spinning");
+	$("#result-canvas").empty();
+
+	let width = $("#stripe-width").val();
+	if (width === "") 
+		width = "0";
+
+	let data = {
+			table: JSON.parse(table.toJSON()),
+			width: width
+	};
+
+	$.ajax({
+		url: '/tdsp',
+		type: 'POST',
+		data: JSON.stringify(data),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'html',
+
+		success: function (data) {
+			$('#div-result').removeClass("hidden");
+			$('#el1').collapse("hide");
+			$('#el3').collapse("show");	
+
+			$("html, body").animate({ scrollTop: $(document).height() }, 'swing');
+
+			let k =  $.parseJSON(data);
+
+			if (k.hasOwnProperty("error"))
+			{
+				alert(k.error);
+				return;
+			}
+
+			let konva = new Konva.Stage({
+      			container: 'canvas-container',
+      			width: 500,
+      			height: 500
+			});
+
+			let layer = new Konva.Layer();
+
+			for(let i in k) {
+				let rect = new Konva.Rect(k[i]);
+				layer.add(rect);
+			}
+
+			konva.add(layer);
+		},
+
+		error: function() {
+			alert("Произошла ошибка при отправке данных на сервер. Пожалуйста, повторите позднее.");
+		},
+
+		complete: function() {
+			$("#algo-processing").removeClass("glyphicon-refresh spinning");
+		}
+	});
 });

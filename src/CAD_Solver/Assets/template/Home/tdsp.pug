@@ -1,15 +1,11 @@
 | @section Scripts {
 environment(names="Development")
 	script(src="~/js/input-table.js")
-	script(src="~/lib/sigma/sigma.min.js")
-	script(src="~/lib/sigma/plugins/sigma.renderers.edgeLabels.min.js")
-	script(src="~/lib/sigma/plugins/sigma.plugins.dragNodes.min.js")
+	script(src="~/lib/konva/konva.js")
 	script(defer src="~/js/tdsp-handler.js")
 environment(names="Staging, Production")
 	script(src="~/js/input-table.min.js")
-	script(src="~/lib/sigma/sigma.min.js")
-	script(src="~/lib/sigma/plugins/sigma.renderers.edgeLabels.min.js")
-	script(src="~/lib/sigma/plugins/sigma.plugins.dragNodes.min.js")
+	script(src="~/lib/konva/konva.min.js")
 	script(defer src="~/js/tdsp-handler.min.js")
 | }
 
@@ -44,7 +40,7 @@ div.container
 					form(role="form")
 						div.form-group
 							label(for="width") Stripe width
-							input.form-control#stripe-width(type="width", placeholder="Ширина полосы")
+							input.form-control#stripe-width(type="width", placeholder="Ширина полосы" value="0")
 			div.row
 				div.col-lg-4
 					button.btn.btn-success#btn-solve(type="submit") Решить
@@ -58,5 +54,4 @@ div.container
 				div.row
 					div.col-lg-12 
 						p#result
-						div#graph-container
-							div#result-graph
+						div#canvas-container
