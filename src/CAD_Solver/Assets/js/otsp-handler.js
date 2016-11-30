@@ -29,8 +29,6 @@ $("#btn-solve").on('click', function () {
 	$("#algo-processing").addClass("glyphicon-refresh spinning");
 	$("#result-graph").empty();
 
-	alert(table.toJSON());
-
 	$.ajax({
 		url: '/otsp',
 		type: 'POST',
@@ -47,8 +45,14 @@ $("#btn-solve").on('click', function () {
 
 			let g =  $.parseJSON(data);
 
+			if (g.hasOwnProperty("error"))
+			{
+				alert(g.error);
+				return;
+			}
+
 			let s = new sigma({
-				graph: g,
+				graph:  g,
 				renderer: {
 					container: 'result-graph',
 					type: "canvas"
@@ -56,19 +60,22 @@ $("#btn-solve").on('click', function () {
 				settings: {
 				    edgeLabelSize: 'proportional',
 				    labelThreshold: 1,
+				    edgeLabelThreshold: 0,
 				    minNodeSize: 5,
 				    maxNodeSize: 5,
 				    minEdgeSize: 1,
 				    maxEdgeSize: 1,
                     minArrowSize: 7
 				}
-			});
+			});			
 
 			let dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+
+			s.refresh();
 		},
 
 		error: function() {
-			alert("no");
+			alert("Произошла ошибка при отправке данных на сервер. Пожалуйста, повторите позднее.");
 		},
 
 		complete: function() {

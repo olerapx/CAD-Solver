@@ -39,7 +39,7 @@ namespace CAD_Solver.Algorithms
                     {
                         temp.edges.Add(new Edge_Item() { id = "e" + i + j, color = "#FF0000",
                             label = this[i][j].ToString(), source = temp.nodes[i].id,
-                            type = "arrow", target = temp.nodes[j].id , size = 0.5f});
+                            type = "curvedArrow", target = temp.nodes[j].id , size = 0.5f, count = 0});
                     }
                 }
             }

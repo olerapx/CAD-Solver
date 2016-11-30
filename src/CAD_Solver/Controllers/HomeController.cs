@@ -92,7 +92,14 @@ namespace CAD_Solver.Controllers
             }
 
             TSP tsp_solver = new TSP();
-            tsp_solver.calculatePath(temp);
+            try
+            {
+                tsp_solver.calculatePath(temp);
+            }
+            catch (TSP_Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
 
             var resGraph = temp.ToGraph();
 

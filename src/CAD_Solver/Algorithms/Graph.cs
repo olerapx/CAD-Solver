@@ -35,5 +35,6 @@ namespace CAD_Solver.Algorithms
         public string type { get; set; }
         public string color { get; set; }
         public float size { get; set; }
+        public int count { get; set; }
     }
 }
