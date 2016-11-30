@@ -54,10 +54,13 @@ $("#btn-solve").on('click', function () {
 					type: "canvas"
 				},
 				settings: {
-					edgeLabelSize: 'proportional',
-					labelThreshold: 1,
-					minNodeSize: 5,
-					maxNodeSize: 5
+				    edgeLabelSize: 'proportional',
+				    labelThreshold: 1,
+				    minNodeSize: 5,
+				    maxNodeSize: 5,
+				    minEdgeSize: 1,
+				    maxEdgeSize: 1,
+                    minArrowSize: 7
 				}
 			});
 

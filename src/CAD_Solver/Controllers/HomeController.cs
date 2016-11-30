@@ -11,6 +11,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
+using CAD_Solver.Algorithms;
+using System.Collections.Generic;
 
 namespace CAD_Solver.Controllers
 {
@@ -71,17 +73,43 @@ namespace CAD_Solver.Controllers
         {
             JArray array = (JArray)data;
 
-            Random r = new Random();
-            return Json(
-                new {
-                        nodes = new[] {
-                            new { id="n1", label="A1", size=0.5, x= r.NextDouble(), y = r.NextDouble() },
-                            new { id="n2", label="A2", size=0.5, x= r.NextDouble(), y = r.NextDouble() }
-                        },
-                        edges = new[] {
-                            new { id="e1", source="n1", target="n2", label="10", color="#FF0000" }
-                        }
-                   });
+            TSP_Table temp = new TSP_Table();
+
+            for(int i=1; i<array.Count; i++)
+            {
+                temp.Add(new List<double>());
+                for(int j=1; j<array.Count; j++)
+                {
+                    string tempStr = array[i][j].ToString();
+                    if (tempStr == "M")
+                    {
+                        temp[i-1].Add(TSP.M);
+                    }else
+                    {
+                        temp[i-1].Add(Double.Parse(tempStr));
+                    }
+                }
+            }
+
+            TSP tsp_solver = new TSP();
+            tsp_solver.calculatePath(temp);
+
+            var resGraph = temp.ToGraph();
+
+            for(int i=0; i<tsp_solver.Path.Count-1; i++)
+            {
+                foreach(var edge in resGraph.edges)
+                {
+                    if(edge.source == "n"+tsp_solver.Path[i] && edge.target == "n"+tsp_solver.Path[i+1])
+                    {
+                        edge.size = 1;
+                        edge.color = "#00FF00";
+                    }
+                }
+            }
+           
+            return Json(resGraph);
+                
         }
 
         [HttpGet]
