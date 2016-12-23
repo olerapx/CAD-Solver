@@ -125,10 +125,21 @@ namespace CAD_Solver.Controllers
             JArray table = (data as JObject).Value<JArray>("table");
             int width = int.Parse((data as JObject).Value<string>("width"));
 
-            return Json (new[] {
-                new { x = 0, y = 0, width = 100, height = 50, fill = "green", stroke = "black", strokeWidth = 1 },
-                new { x = 100, y = 100, width = 70, height = 20, fill = "yellow", stroke = "black", strokeWidth = 1 }
-            });
+            List<Block> blockList = new List<Block>();
+            for(int i=0; i<table.Count; i++)
+            {
+                float w=(float)table[i][1], h=(float)table[i][2];
+                if (w <= 0) w = 1;
+                if (h <= 0) h = 1;
+                blockList.Add(new Block() { width = w, height = h, x = 0, y = 0, stroke = "black", strokeWidth = 1, fill = "green" });
+            }
+            
+
+            FCNR fcnr = new FCNR();
+            fcnr.Pack(width, blockList);
+
+
+            return Json (fcnr.LevelsToBlocklist());
         }
 
         [HttpGet]
